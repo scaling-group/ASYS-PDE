@@ -1,0 +1,45 @@
+{
+  "seed": 2026110521,
+  "parameters": 12739,
+  "stop": "unchanged_lbfgs_steps",
+  "failure": null,
+  "eligible": true,
+  "selected_training_loss": 8.052637048745451e-07,
+  "selected_outer_step": 63474,
+  "selected_first_measured_elapsed": 2404.6819916999957,
+  "selected_completed_elapsed": 2404.682158540003,
+  "outer_attempts": 63524,
+  "accepted_steps": 63523,
+  "attempted_closures": 63601,
+  "completed_closures": 63601,
+  "post_step_evaluations": 63523,
+  "diagnostics": {
+    "uniform": {
+      "count": 8192,
+      "mse": 0.0015991737259464444
+    },
+    "core": {
+      "count": 8704,
+      "mse": 4.466583310225462e-07
+    },
+    "interior_initial_tangent": {
+      "mse": 0.04095156252561159,
+      "normalized_mse": 0.0026833075655296216,
+      "wall_corner_excluded": true
+    }
+  },
+  "checkpoint600_exists": true,
+  "reference_access": false,
+  "wall_seconds": 2407.0591664980166,
+  "cpu_seconds": 2391.116668636,
+  "budget_seconds": 3600.0,
+  "settings": {
+    "total": 3600.0,
+    "train_end": 3585.0,
+    "adam_end": 2400.0,
+    "checkpoint": 600.0,
+    "max_outer": 100000,
+    "max_closures": 300000,
+    "unchanged_stop": 50
+  }
+}

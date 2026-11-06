@@ -1,0 +1,5 @@
+seed: 1101101
+n_collocation: 16384
+n_ic: 4096
+n_bc: 256
+max_steps: 100000

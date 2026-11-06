@@ -1,0 +1,104 @@
+seed: 0
+n_core: 12
+n_first: 6
+time_degree: 12
+# Exact warm initialization from solver_cfc3a9238a37's exported fitted state.
+# Same bounded temporal field class, 13 Gaussians and 312 trainable scalars.
+# 637 buffers: 312 acff seed + 312 frozen cfc reference corrections + 12 rates
+# + one correction bound. No manual fitting or optimizer steps are allowed.
+initialization: inherited_cfc3a9238a37
+correction_bound: 6.0
+# Retain cfc's radial/time quadrature and all 64 times, including the endpoints.
+# Four Gauss nodes per cell give 576 x 64 continuous training probes.
+n_x: 144
+n_time: 64
+n_collocation: 9216
+n_ic: 256
+n_bc: 128
+boundary_weight: 1.0
+coefficient_regularization: 1.0e-10
+force_conditioning: true
+force_conditioning_exponent: 0.5
+force_conditioning_max_weight: 32.0
+# W_t=clip((mean(E_ref)/E_ref(t))^.5,1,32)/mean(W).
+# E_ref is the inherited area's mean ut^2+D^2+C^2; never the current field.
+# The normalized metric retains every time with a positive weight. It gives
+# early forces more influence and may trade late absolute residual for early
+# relative accuracy. Public scoring remains unmodified raw MSE.
+optimizer: DampedGaussNewton
+gn_initial_damping: 0.01
+gn_max_trials: 5
+gn_max_coefficient_step: 2.0
+gn_max_curve_step: 2.0
+max_steps: 100000
+wall_time: 300.0
+
+# Preserved inherited outcomes: public physics loss, best training loss, steps.
+# 9ac942bae0a6 first-jet/LBFGS (225): 1.70488464e-4, 2.05148896e-4, 7263.
+# 20eaefeedb2e first-jet/GN (325): 4.18958011e-6, 3.05961773e-6, 2020.
+# c4feca0ff168 hazard/LBFGS (136): 2.13504882e-4, 1.73027475e-4, 7903.
+# 3036b2179b48 alternate family (231): 2.73457510e-4, 3.29612938e-4, 7510.
+# acff6d6d0001 second-jet/GN (312): 5.27848375e-8, 6.49099431e-8, 1839.
+# cfc3a9238a37 bounded corrections/GN (312): 3.90742979e-8, 4.76813824e-8, 2234.
+# Its 4576 closure values at quarters: 6.43384298e-8 -> 4.86754738e-8
+# -> 4.76830193e-8 -> 4.76816667e-8 -> 4.76813824e-8. Mostly stalled.
+# acff's corresponding 4035 values: 1.33296 -> 1.85524e-6 -> 9.78489e-8
+# -> 7.15535e-8 -> 6.49099e-8. Still improving at the budget boundary.
+# Additional guidance-visible fits retained (different warm source):
+# 290314a1056a extra post-saturation spline: 4.75249113e-8, 5.21222357e-8, 1037.
+# 3ad5119791e4 geodesic optimizer: 6.02708889e-8, 6.08324650e-8, 2111.
+# These adverse outcomes do not prove a deficient function class. Neither
+# parameter growth nor saturation relief reliably improved public residuals.
+
+# Inherited cfc diagnostics, without further fitting, at the unchanged 64
+# training times and 576 radial Gauss nodes:
+# E_ref min/max/mean = 2.33702932 / 369594.98799 / 42342.64040.
+# Unnormalized fixed weights min/max/mean = 1 / 32 / 16.59598612.
+# Raw PDE mean 4.74377772e-8; new weighted PDE mean 2.28851556e-8.
+# This is a metric change, NOT improvement in the initialized field.
+# At t=.0192485: relative defect sqrt(mean(R^2)/E_ref)=9.62439e-5.
+# At T: relative defect 9.32202e-7; absolute PDE MSE 3.21178e-7.
+# Independent 151 uniform times x 401 log radii: signed maximum sampled
+# residual -.399467 near r=.0001,t=.8607432. Both force and residual
+# differences across time motivate a bounded metric, not removal of late times.
+# Endpoint origin density 624.262056; min/max width .00129234 / 3.88768877.
+# Exact moments and small area residuals do not certify this IVP trajectory.
+
+# Live literature: Rathore et al., ICML 2024, motivates examining residual
+# conditioning, not this specific weighting rule or a convergence guarantee:
+# https://proceedings.mlr.press/v235/rathore24a.html
+# Buseghin et al., arXiv:2312.01475, supplies the inherited spatial prior
+# U=8/(1+r^2)^2, not this Gaussian IVP or a prescribed singularity clock:
+# https://arxiv.org/abs/2312.01475
+# The primary Blanchet-Dolbeault-Perthame PDF fetch timed out in this phase.
+# Its previously supplied identity is also directly verified algebraically.
+# No external numerical target, dependency installation or process intervention.
+
+# Synthetic verification in this phase, ASYS_NUM_THREADS=2; no optimizer steps,
+# fitting loop or candidate scoring was run. Source import + model setup .00801 s;
+# optimizer setup .95316 s, including the frozen reference-force metric.
+# First full configured loss/backward .04800 s; exact normal matrix .17487 s.
+# These single timings establish feasibility, not fit convergence/query speed.
+# Normalized time weights [.06025553,1.92817708], unchanged by synthetic updates.
+# Initial conditioned training loss 2.31287608e-8. Disabling conditioning
+# reproduces the inherited training objective EXACTLY, including regularization.
+# On 101 times x 11 independent radii, initial values, coordinate gradients
+# and radial Hessians reproduce the inherited cfc field EXACTLY.
+# With .02*sin(index) coefficient perturbations, the derivative guard passes;
+# initial ordinary-AD u/u_t/u_tt errors are 0,7.10543e-14,4.32010e-12.
+# Mass and second-moment errors both <=8.88178e-16; boundary loss 1.44443e-202.
+# Analytic continuous terms versus ordinary AD, including the origin limit:
+# max relative error 2.40507e-14. Residual Jacobian vs reverse AD: 2.59938e-13.
+# Exact weighted normal matrix vs dense weighted Jacobian Gram: 7.48314e-16.
+# Weighted J^T R + regularizer vs the loss gradient/2: 3.62137e-16.
+# Strict state export/reload in a FRESH process with active perturbations gives
+# zero differences for every protected field-probe value/first/second derivative,
+# without importing either candidate loss.py or optim.py.
+# Independent baseline 201 uniform times x 301 log radii: signed residual
+# range [-.43607365,.17351875]; finite-r=30 mass/moment errors <=1.77636e-15;
+# maximum absolute remote flux 1.90099e-99. Density stays finite/nonnegative.
+# Required checker: logs/optimize/check.json (passes=true).
+# New native convergence and raw public-score changes remain unmeasured;
+# the weighted initial loss is not comparable to inherited raw training losses.
+# Retained tooling failure: git status --short reported no Git repository in
+# this phase workspace. This read-only check did not change numerical state.

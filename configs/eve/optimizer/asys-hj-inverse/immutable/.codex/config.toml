@@ -1,0 +1,2 @@
+[agents.check-runner]
+config_file = "agents/check-runner.toml"

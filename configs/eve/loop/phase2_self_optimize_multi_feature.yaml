@@ -1,0 +1,41 @@
+# @package _global_
+# Phase 2-only self-optimize loop with MULTI-DIMENSIONAL solver scoring.
+#
+# Same as phase2_self_optimize, but the solver-side samplers rank candidates on
+# four independent score dimensions {physics, ic, ic_tangent, bc} instead of a
+# single blended `score`. This lets the search treat the PDE residual, the
+# initial-value trace, the initial time direction, and the boundary condition
+# as separate ordinal objectives (rank-based, scale-free) rather than a
+# weighted sum (alpha*ic + beta*physics).
+#
+# Requires the case's evaluator to emit `physics`, `ic`, `ic_tangent`, `bc` at
+# the top level of its score payload (see asys report(score_dims=...)). Cases
+# whose evaluator does not expose these keys must NOT use this loop config.
+#
+# IMPORTANT — why the interpolation indirection: OmegaConf merges nested dicts
+# by DEEP MERGE, so writing `features: {physics: ...}` directly would KEEP the
+# inherited `features.score` key and add the new ones (verified: 4 keys
+# leak through). Pointing the sampler at a freshly-defined node via `${...}`
+# REPLACES the node wholesale, so no stale `score` dimension remains.
+#
+# Weights/temperatures are equal across dimensions (no ordinal preference): in
+# the rank world the old alpha/beta have no meaning (they compensated for loss
+# scale, which ranking removes), so equal weight is the least-assumption start.
+# Tune empirically from observed per-dimension rank spread.
+
+defaults:
+  - phase2_self_optimize
+  - _self_
+
+loop:
+  sampling:
+    _solver_multi_feature:
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.rank_softmax.RankExponentialSumSampler
+      features:
+        physics: {weight: 1.0, temperature: 1.0}
+        ic: {weight: 1.0, temperature: 1.0}
+        ic_tangent: {weight: 1.0, temperature: 1.0}
+        bc: {weight: 1.0, temperature: 1.0}
+      replacement_mode: no_replacement
+    solver_examples: ${loop.sampling._solver_multi_feature}
+    produced_optimizers: ${loop.sampling._solver_multi_feature}

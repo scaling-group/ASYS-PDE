@@ -1,0 +1,14 @@
+# @package _global_
+# Codex exec driver for ASYS local runs.
+
+driver:
+  driver: codex_exec
+  executable: codex
+  model: gpt-6.1-sol
+  reasoning_effort: xhigh
+  web_search: live
+  timeout_seconds: 1800
+  rollout_max_turns: 45
+  overrides:
+    solver:
+      reasoning_effort: xhigh

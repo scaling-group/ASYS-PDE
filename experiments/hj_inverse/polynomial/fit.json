@@ -1,0 +1,14 @@
+{
+  "steps": 20000,
+  "learning_rate": 0.001,
+  "checkpoint_every": 500,
+  "n_physics": 256,
+  "n_ic": 128,
+  "n_bc": 64,
+  "n_observation": 256,
+  "validation_batches": 4,
+  "wall_seconds": 6600,
+  "seed": 1101,
+  "threads": 1
+}
+

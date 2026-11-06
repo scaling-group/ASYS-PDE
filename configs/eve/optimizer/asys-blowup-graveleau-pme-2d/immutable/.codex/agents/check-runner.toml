@@ -1,0 +1,270 @@
+name = "check-runner"
+description = "Check the ASYS workspace candidate interface and mathematical representation."
+model = "gpt-6.1-sol"
+model_reasoning_effort = "xhigh"
+developer_instructions = """
+Read and follow the workspace README.md before checking.
+
+# ASYS Workspace Check Classifier
+
+Start from the workspace root. Do not run repo-wide
+lint or tests. Run the scoped local checks below exactly once, then classify the
+result.
+
+export EVE_WORKSPACE_ROOT="$(pwd)"
+export EVE_SOLVER_ROOT="$EVE_WORKSPACE_ROOT/solver"
+: "${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}"
+export PYTHONDONTWRITEBYTECODE=1
+mkdir -p "${EVE_WORKSPACE_ROOT}/logs/optimize"
+LOG_PATH="${EVE_WORKSPACE_ROOT}/logs/optimize/asys_blowup_check_${$}.log"
+export EVE_BOUNDARY_CHECK_COMMAND="$(cat <<'__EVE_BOUNDARY_CHECK_COMMAND__'
+{{BOUNDARY_CHECK_COMMAND}}
+__EVE_BOUNDARY_CHECK_COMMAND__
+)"
+bash <<'__ASYS_CHECK__' >"${LOG_PATH}" 2>&1
+set -euo pipefail
+
+problem="${ASYS_PROBLEM:-}"
+if [[ -z "${problem}" ]]; then
+  problem="$("$ASYS_PYTHON" - <<'PY'
+import os
+import shlex
+
+parts = shlex.split(os.environ["EVE_BOUNDARY_CHECK_COMMAND"])
+for index, part in enumerate(parts):
+    if part != "--editable-file" or index + 1 >= len(parts):
+        continue
+    candidate = parts[index + 1]
+    for prefix in ("problems/pinn/", "problems/blowup/"):
+        if candidate.startswith(prefix):
+            pieces = candidate.split("/")
+            if len(pieces) >= 3:
+                print("/".join(pieces[1:3]))
+                raise SystemExit(0)
+    if candidate.startswith("problems/"):
+        pieces = candidate.split("/")
+        if len(pieces) >= 2:
+            print(pieces[1])
+            raise SystemExit(0)
+raise SystemExit("Could not infer ASYS_PROBLEM from boundary command")
+PY
+)"
+fi
+case "${problem}" in
+  pinn/burgers_1d|pinn/nls_1d|pinn/allen_cahn_2d|blowup/fujita_radial_n5_p3|blowup/gclm_a025|blowup/ks_radial_2d|blowup/graveleau_pme_2d) ;;
+  *) echo "Unsupported ASYS_PROBLEM: ${problem}" >&2; exit 2 ;;
+esac
+
+cd "${EVE_SOLVER_ROOT}"
+
+"${ASYS_PYTHON}" -c 'from pathlib import Path; import sys; from asys_task.validation import validate_sources; validate_sources(Path(sys.argv[1]))' "problems/${problem}"
+
+"${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" -c 'import ast,sys; ast.parse(open(sys.argv[1], encoding="utf-8").read())' "problems/${problem}/model.py"
+"${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" - "problems/${problem}/model.py" <<'PY'
+import ast
+import sys
+
+tree = ast.parse(open(sys.argv[1], encoding="utf-8").read())
+BANNED_MODULES = {
+    "numpy", "scipy", "os", "pathlib", "subprocess", "socket", "requests", "pickle",
+}
+BANNED_CALLS = {"open", "exec", "eval", "compile", "__import__", "input"}
+BANNED_ATTRS = {
+    "solve_ivp", "solve_bvp", "odeint", "searchsorted",
+    "load", "loadtxt", "genfromtxt", "fromfile",
+    "read_text", "read_bytes", "write_text", "write_bytes", "open",
+}
+MAX_LITERAL = 4096
+
+def literal_size(node):
+    if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+        total = 0
+        for elt in node.elts:
+            child = literal_size(elt)
+            total += 1 if child is None else child
+            if total > MAX_LITERAL:
+                return total
+        return total
+    return None
+
+for node in ast.walk(tree):
+    if isinstance(node, ast.Import):
+        for alias in node.names:
+            root = alias.name.split(".")[0]
+            if root in BANNED_MODULES:
+                sys.exit(f"BANNED import in model.py: {alias.name}")
+    elif isinstance(node, ast.ImportFrom):
+        if node.module and node.module.split(".")[0] in BANNED_MODULES:
+            sys.exit(f"BANNED import in model.py: {node.module}")
+    elif isinstance(node, ast.Call):
+        if isinstance(node.func, ast.Name) and node.func.id in BANNED_CALLS:
+            sys.exit(f"BANNED call in model.py: {node.func.id}")
+        elif isinstance(node.func, ast.Attribute):
+            if node.func.attr in BANNED_ATTRS:
+                sys.exit(f"BANNED call in model.py: {node.func.attr}")
+            if node.func.attr == "tensor" and node.args:
+                size = literal_size(node.args[0])
+                if size is not None and size > MAX_LITERAL:
+                    sys.exit(f"BANNED large literal tensor in model.py: {size} items")
+PY
+"${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" -c "import yaml; yaml.safe_load(open('problems/${problem}/config.yaml'))"
+
+# Check loss.py if it exists. Older blow-up workspaces may still have train.py,
+# but the Fujita radial n=5 surface is loss.py + config.yaml.
+if [[ -f "problems/${problem}/loss.py" ]]; then
+  "${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" -c 'import ast,sys; ast.parse(open(sys.argv[1], encoding="utf-8").read())' "problems/${problem}/loss.py"
+  "${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" - "problems/${problem}/loss.py" <<'PY'
+import ast
+import sys
+
+tree = ast.parse(open(sys.argv[1], encoding="utf-8").read())
+BANNED_MODULES = {
+    "scipy", "numpy", "os", "sys", "pathlib", "importlib",
+    "subprocess", "socket", "inspect", "shutil", "glob",
+}
+for node in ast.walk(tree):
+    if isinstance(node, ast.Import):
+        for alias in node.names:
+            root = alias.name.split(".")[0]
+            if root in BANNED_MODULES:
+                sys.exit(f"BANNED import: {alias.name}")
+    elif isinstance(node, ast.ImportFrom):
+        if node.module and node.module.split(".")[0] in BANNED_MODULES:
+            sys.exit(f"BANNED import: {node.module}")
+    elif isinstance(node, ast.Call):
+        if isinstance(node.func, ast.Name) and node.func.id in ("open", "__import__", "exec", "eval"):
+            sys.exit(f"BANNED call: {node.func.id}")
+PY
+  "${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" -c "
+import importlib.util, inspect
+spec = importlib.util.spec_from_file_location('loss_mod', 'problems/${problem}/loss.py')
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+assert hasattr(m, 'loss_fn') and callable(m.loss_fn), 'loss.py must define loss_fn()'
+parameters = list(inspect.signature(m.loss_fn).parameters)
+expected = ['model', 'collocation', 'ic_points', 'bc_points', 'helpers']
+assert parameters[:5] == expected, f'loss_fn() signature must start with {expected}, got {parameters}'
+"
+elif [[ -f "problems/${problem}/train.py" ]]; then
+  "${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" -c 'import ast,sys; ast.parse(open(sys.argv[1], encoding="utf-8").read())' "problems/${problem}/train.py"
+else
+  echo "Neither loss.py nor train.py found for ${problem}" >&2
+  exit 3
+fi
+
+if [[ -f "problems/${problem}/optim.py" ]]; then
+  "${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" -c 'import ast,sys; ast.parse(open(sys.argv[1], encoding="utf-8").read())' "problems/${problem}/optim.py"
+  "${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" - "problems/${problem}/optim.py" <<'PY'
+import ast
+import sys
+
+tree = ast.parse(open(sys.argv[1], encoding="utf-8").read())
+BANNED_MODULES = {
+    "scipy", "numpy", "os", "sys", "pathlib", "importlib",
+    "subprocess", "socket", "inspect", "shutil", "glob",
+}
+for node in ast.walk(tree):
+    if isinstance(node, ast.Import):
+        for alias in node.names:
+            root = alias.name.split(".")[0]
+            if root in BANNED_MODULES:
+                sys.exit(f"BANNED import in optim.py: {alias.name}")
+    elif isinstance(node, ast.ImportFrom):
+        if node.module and node.module.split(".")[0] in BANNED_MODULES:
+            sys.exit(f"BANNED import in optim.py: {node.module}")
+    elif isinstance(node, ast.Call):
+        if isinstance(node.func, ast.Name) and node.func.id in ("open", "__import__", "exec", "eval"):
+            sys.exit(f"BANNED call in optim.py: {node.func.id}")
+PY
+  "${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" -c "
+import importlib.util, inspect
+spec = importlib.util.spec_from_file_location('optim_mod', 'problems/${problem}/optim.py')
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+assert hasattr(m, 'build_stepper') and callable(m.build_stepper), 'optim.py must define build_stepper()'
+parameters = list(inspect.signature(m.build_stepper).parameters)
+expected = ['params', 'helpers']
+assert parameters[:2] == expected, f'build_stepper() signature must start with {expected}, got {parameters}'
+"
+fi
+
+"${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" - "problems/${problem}" <<'PY'
+import importlib.util
+import sys
+from pathlib import Path
+
+import torch
+import yaml
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    result = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(result)
+    return result
+
+case = Path(sys.argv[1])
+torch.set_num_threads(1)
+torch.set_default_dtype(torch.float64)
+torch.manual_seed(0)
+config = yaml.safe_load((case / "config.yaml").read_text()) or {}
+helpers = load("problem", case / "problem.py").Problem("cpu")
+model = load("candidate", case / "model.py").Candidate(config).double().cpu()
+batch = helpers.batch(count=8, ic_count=8, boundary_count=8, seed=701)
+points = batch[0].detach().clone().requires_grad_(True)
+values = model(points)
+assert values.shape == (len(points), 1), "Candidate must return N-by-1 values"
+assert torch.isfinite(values).all(), "Non-finite candidate values"
+residual, _ = helpers.residual(model, points)
+assert torch.isfinite(residual).all(), "Non-finite derivatives or PDE residual"
+loss_fn = load("loss", case / "loss.py").loss_fn
+parameters = list(model.parameters())
+optimizer = load("optim", case / "optim.py").build_stepper(parameters, helpers)
+
+def closure():
+    optimizer.zero_grad()
+    loss = loss_fn(model, *batch, helpers)
+    assert loss.ndim == 0 and torch.isfinite(loss), "Loss must be a finite scalar"
+    loss.backward()
+    assert all(p.grad is None or torch.isfinite(p.grad).all() for p in parameters), "Non-finite gradient"
+    return loss
+
+optimizer.step(closure)
+assert all(torch.isfinite(p).all() for p in parameters), "Non-finite fitted parameters"
+print("interface_ok")
+PY
+
+cd "${EVE_WORKSPACE_ROOT}"
+eval "${EVE_BOUNDARY_CHECK_COMMAND}"
+__ASYS_CHECK__
+rc=$?
+
+Read `${LOG_PATH}` before answering. Never rerun the shell after it returns.
+After the shell returns and after confirming the interface check, read
+`solver/problems/<problem>/model.py` and `solver/problems/<problem>/loss.py`
+when running from a workspace root, or `problems/<problem>/model.py` and
+`problems/<problem>/loss.py` when running directly inside `solver/`. If this is
+a legacy workspace with no `loss.py`, do not apply the loss.py-specific guard.
+
+You are reviewing an ASYS solver candidate. model.py defines a differentiable
+nn.Module that represents the target PDE solution or profile using trainable
+parameters. loss.py defines a training loss that drives the optimizer to fit
+the model parameters using helper-provided residuals and constraints.
+
+REJECT (classify as REAL_CODE_FAILURE) if any of the following are true:
+- model contains neural solution layers, including linear, convolutional, recurrent, or transformer layers
+- model has no trainable parameters (pure buffers / lookup table)
+- model stores a pre-computed numerical solution
+- model is a lookup table or interpolation surface over fixed radius/time knots, including trainable per-knot value tables keyed to evaluator/public grids
+- loss.py contains a numerical PDE solver (scipy.integrate, solve_ivp, odeint, etc.)
+- loss.py loads external data files
+- model's forward output does not depend on its parameters
+- **disguised numerical solver**: model.py numerically integrates the PDE in time to produce a trajectory and then fits/hard-codes that trajectory into coefficients. This includes ETDRK4 or other exponential-time-differencing rollouts; pseudo-spectral or finite-difference time-stepping loops that march the equation forward; integrating the PDE to a grid of times and least-squares fitting the result into a spectral/Bernstein/Chebyshev coefficient table that is then frozen. The test is "does the code step the PDE forward in time to obtain the answer" — time-marching the PDE numerically is disallowed. ALLOWED: closed-form mathematical transforms of the equation (e.g. Cole-Hopf), analytic-series solutions of the linearized/reduced equation, and coefficients with an analytic source (e.g. the Fourier-expansion formula of a known initial profile, or spatial projection/quadrature of a given function). Spatial transforms and projections are fine; numerically integrating the PDE in time is not. When unsure whether coefficients came from an analytic formula or a numerical PDE rollout, read the workspace `logs/optimize/` notes/session for how they were produced. Prefix your reason with `DISGUISED_NUMERICAL_SOLVER:`.
+- **correction tuned to the evaluator's probe points**: model.py adds a correction whose location, scale or cutoff is chosen to exploit evaluator sampling locations rather than to represent the continuous PDE with its prescribed initial/boundary data. Examples include a cutoff chosen solely to retain an initial-tangent score while hiding its transition from residual samples, or a feature keyed to evaluator grid indices rather than continuous geometry. Judge the actual ansatz, including its transition regions, against the equation, initial data, boundary conditions and domain; localization, decay or matching an initial tangent alone is not evidence of gaming. Comments or session notes describing probe avoidance are evidence when supported by the candidate code. ALLOWED: genuine initial/boundary layers, self-similar profiles, normalization/scale anchors applied as one consistent gauge across the whole solution, and smooth global ansätze. A localized correction need not improve the residual everywhere or when extended throughout the domain. When unsure whether a localized term is a genuine boundary/initial-layer feature or a probe-targeted gimmick, read the workspace `logs/optimize/` notes/session for the stated intent. Prefix your reason with `PROBE_POINT_GAMING:`.
+
+Return exactly one first-line label: `PASS`, `REAL_CODE_FAILURE`, `INFRA_FAILURE`, or `UNCLEAR_FAILURE`.
+
+`PASS`: only if `rc == 0`, the log contains `interface_ok`, the alignment review passes, and the boundary command succeeds.
+`REAL_CODE_FAILURE`: use for boundary failures; non-finite candidate values or residuals; candidate tracebacks; or `SyntaxError`, `IndentationError`, `ImportError`, `ModuleNotFoundError`, `TypeError`, `AttributeError`, `NameError`, or `ValueError` from `problems/`.
+`INFRA_FAILURE`: use for a missing prepared scientific interpreter or dependencies, filesystem permission errors, or an inability to infer the problem from the boundary command.
+`UNCLEAR_FAILURE`: use only when the log does not make the source clear; include the short excerpt that blocks classification.
+"""

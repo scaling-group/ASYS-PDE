@@ -1,0 +1,88 @@
+{
+  "anchor": 0.25,
+  "rows": [
+    {
+      "id": "asys-h1",
+      "method": "ASYS",
+      "revision": 16,
+      "folder": "cohort/asys-h1"
+    },
+    {
+      "id": "asys-h2",
+      "method": "ASYS",
+      "revision": 16,
+      "folder": "cohort/asys-h2"
+    },
+    {
+      "id": "asys-h3",
+      "method": "ASYS",
+      "revision": 10,
+      "folder": "selected"
+    },
+    {
+      "id": "asys-h4",
+      "method": "ASYS",
+      "revision": 19,
+      "folder": "cohort/asys-h4"
+    },
+    {
+      "id": "asys-h5",
+      "method": "ASYS",
+      "revision": 7,
+      "folder": "cohort/asys-h5"
+    },
+    {
+      "id": "sigs-0",
+      "method": "SIGS",
+      "terminal": "terminal-02",
+      "folder": "cohort/sigs-0"
+    },
+    {
+      "id": "sigs-1",
+      "method": "SIGS",
+      "terminal": "terminal-03",
+      "folder": "cohort/sigs-1"
+    },
+    {
+      "id": "fex-0",
+      "method": "FEX",
+      "terminal": "terminal-02",
+      "folder": "cohort/fex-0"
+    },
+    {
+      "id": "fex-1",
+      "method": "FEX",
+      "terminal": "terminal-00",
+      "folder": "cohort/fex-1"
+    }
+  ],
+  "reference_bank_sha256": {
+    "fine": "1f5f0bffa349bc4b19e84567a66a8d1dbf241fa2bba825aaa67fec66ae10002b",
+    "coarse": "608192ee6722a2a2c5ddaeeb110ec3c2059f7c880e1f4d92ea7dc7d26c223e42",
+    "medium": "b26d15867d98a5c11bf51885496000096007c6e0c856536e9f49f1eaed9d2e12",
+    "extended_domain": "3cd9e99060750fc2eeda0a8c2134d6b9d470a3d0b4641e51554f846c0ea19718"
+  },
+  "reused_sources": {
+    "experiments/gclm/selected/frozen_profile.py": {
+      "original_sha256": "6ca546292aad488a9ca5a1a7b3be965ee63a043d17faf1ba1be44dbea988f935",
+      "equivalence": "identical bytes",
+      "source": "cohort/H1-revision16/source/frozen_profile.py"
+    },
+    "configs/eve/application/asys-gclm-profile/asys_eval.py": {
+      "original_sha256": "63ad0c6084ece12b8759efabb892036722ef061aad5529f03cf10fb0a95cb497",
+      "equivalence": "identical bytes",
+      "source": "cohort/H1-revision16/source/asys_eval.py"
+    },
+    "configs/eve/application/asys-gclm-profile/assessment_config.json": {
+      "original_sha256": "4bfcd29dcd3fa24bae0d7048c60d78e45219acb7aec0a134c0a46ef66f7fff4b",
+      "equivalence": "identical bytes",
+      "source": "cohort/H1-revision16/source/assessment_config.json"
+    },
+    "baseline/gclm/tail_capable/sigs/single_anchor.py": {
+      "original_sha256": "eda62667f506e6f41c13b03e2ea1751c73830540c8d1f701e180fcf5163eea19",
+      "equivalence": "identical executable AST; module docstring shortened",
+      "source": "baselines/sigs-0/source/single_anchor.py"
+    }
+  },
+  "refit_policy": "Released ASYS support and terminal policy entries equal the original entries; portable helpers remove allocation guards and support current NumPy."
+}

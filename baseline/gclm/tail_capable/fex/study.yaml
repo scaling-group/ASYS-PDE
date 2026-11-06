@@ -1,0 +1,18 @@
+mode: target
+depths: [2]
+seeds: [0, 1]
+initial_beta: 1.0
+initial_sd: 0.1
+controller: {temperature: 5.0, exploration: 0.1, retained_fraction: 0.5, learning_rate: 0.002, batch_size: 10, maximum_batches: 500}
+coarse:
+  fit_seconds_per_proposal: 30
+  total_fit_seconds: 7200
+  phase_wall_seconds: 7200
+  snapshots_after_batches: []
+  stages: [{kind: adam, lr: 0.001, updates: 20}, {kind: lbfgs, lr: 0.5, updates: 20}]
+pool_size: 4
+terminal:
+  initialization: retained_coarse_state_from_this_run
+  fit_seconds_per_expression: 1200
+  stages: [{kind: adam, lr: 0.01, updates: 20000, cosine: true}]
+case_wall_seconds: 14000

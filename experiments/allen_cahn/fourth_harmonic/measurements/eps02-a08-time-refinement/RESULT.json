@@ -1,0 +1,31 @@
+{
+  "case": "eps02-a08-time-refinement",
+  "a": 0.08,
+  "eps": 0.02,
+  "n": 512,
+  "dt": 0.001953125,
+  "R0": 0.28,
+  "equation": "u_t=eps^2 Laplacian(u)+u-u^3",
+  "domain": "[-1,1)^2 periodic",
+  "initial": "tanh(actual signed Euclidean distance/(sqrt(2)*eps)), positive inside",
+  "status": "complete",
+  "distance": {
+    "method": "global nearest sampled contour point, then continuous Euclidean normal projection by Newton; exact parametric curve",
+    "seed_samples": 16384,
+    "projection_stationarity_max": 6.591949208711867e-17
+  },
+  "initial_array_sha256": "f7f071c4f6231027dc6f36a9aec1ddb5a05d5bddf4c34ea1ce09fac2bd059785",
+  "steps": 15060,
+  "saved_times": 61,
+  "extraction_checks": [],
+  "arrays": {
+    "contours.npz": {
+      "sha256": "8ad8c25437841dd26fde9137e4b5f692a7f0f67273dbbb28b0d4d9e070fd64fd",
+      "bytes": 283031
+    },
+    "metrics.csv": {
+      "sha256": "8341be118369f0d28b503e7099838557899855a570f599a7536f97852b9426c4",
+      "bytes": 24469
+    }
+  }
+}

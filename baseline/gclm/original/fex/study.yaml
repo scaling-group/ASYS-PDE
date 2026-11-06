@@ -1,0 +1,32 @@
+# Standalone FEX-derived numerical comparison; no EvE proposal/model calls.
+mode: target
+depths: [2, 3]
+seeds: [0, 1, 2]
+initial_beta: 1.0
+initial_sd: 0.1
+training: {collocation: 96, quadrature: 128, physics_scale: 1000000.0}
+controller:
+  temperature: 5.0
+  exploration: 0.1
+  retained_fraction: 0.5
+  learning_rate: 0.002
+  batch_size: 10
+  maximum_batches: 500
+coarse:
+  fit_seconds_per_proposal: 30
+  total_fit_seconds: 12000
+  phase_wall_seconds: 18000
+  snapshots_after_batches: [50, 250, 500]
+  stages:
+    - {kind: adam, lr: 0.001, updates: 20}
+    - {kind: lbfgs, lr: 0.5, updates: 20}
+pool_size: 10
+terminal:
+  initialization: retained_coarse_state_from_this_run
+  fit_seconds_per_expression: 1200
+  stages:
+    - {kind: adam, lr: 0.01, updates: 20000, cosine: true}
+case_wall_seconds: 31000
+selection: Unchanged public score among valid terminal fits only; declaration order breaks ties. Coarse snapshots are separate diagnostic roles.
+reference_boundary: Reference; never enters training, rewards, pool or public selection.
+resources: {cpus_per_case: 1, memory_per_case: 6GB, gpus: 0, walltime_per_case: '09:00:00'}

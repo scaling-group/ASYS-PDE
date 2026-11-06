@@ -1,0 +1,18 @@
+defaults:
+  - runtime: default
+  - loop: phase2_self_optimize_multi_feature
+  - driver: asys
+  - logger: many_loggers
+  - application: asys-fujita-ivp
+  - optimizer: asys-fujita-ivp
+  - evaluation: asys-fujita-ivp
+  - _self_
+label: asys-fujita-ivp
+loop:
+  max_iterations: 40
+  n_workers_phase2: 2
+driver:
+  rollout_max_turns: 50
+logger:
+  wandb:
+    enabled: false

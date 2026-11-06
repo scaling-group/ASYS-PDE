@@ -1,0 +1,18 @@
+# @package _global_
+# Minimal Claude Code non-interactive driver for fast runtime validation.
+# Claude Code counts every model turn, so the cap matches opencode_smoke's native steps.
+
+driver:
+  driver: claude_code
+  executable: claude
+  model: claude-sonnet-5-5
+  reasoning_effort: low
+  rollout_max_turns: 50
+  web_search: disabled
+  timeout_seconds: 900
+  overrides:
+    solver:
+      reasoning_effort: low
+    eval:
+      model: claude-sonnet-5-5
+      reasoning_effort: low

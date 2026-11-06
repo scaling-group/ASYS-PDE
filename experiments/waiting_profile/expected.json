@@ -1,0 +1,12 @@
+{
+  "normalized_ode_rms": 6.601662602276888e-17,
+  "normalized_ode_max": 1.7261777980318075e-16,
+  "fitted_scalars": 18,
+  "origin_traces": [
+    0.0,
+    0.0,
+    0.3333333333333333,
+    6.0
+  ],
+  "state_sha256": "230a8be99fd689bb5876cbdf97bd9c983ca2375591b16f82756feb3025aa5eba"
+}

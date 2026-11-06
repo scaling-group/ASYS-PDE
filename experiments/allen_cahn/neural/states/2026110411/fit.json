@@ -1,0 +1,50 @@
+{
+  "arm": "nn-lbfgs",
+  "seed": 2026110411,
+  "base_seed": 2026110411,
+  "initialization_seed": 2027110411,
+  "component_seeds": {
+    "residual": 2026110411,
+    "initial": 2026110412,
+    "boundary": 2026110413
+  },
+  "counts": [
+    4096,
+    512,
+    64
+  ],
+  "batch_sha256": "df31790dc4c41a19d09a025d6af8536d84bf7b5a701cd1078843b8379e57f950",
+  "artifact_sha256": {
+    "history.json": "82644ba3fb7f7ae7cb263bd259aa6258d7d63e4470ffdba5ef149bcf1c1a39cb",
+    "initial.pt": "a827569cb050bd8d66aeabe4cce1e82d6f56c917930241e482454b35fa0d1464",
+    "checkpoint300.pt": "eb8df6ae0d3354c1f397ad9e9dee4a182e51e230ca2948caabb36a3930e4cb8d",
+    "selected.pt": "defb5e7c44d63f31240b87983f93ae36927d0c1e39cb64b16844fe3f67a19b79",
+    "last_complete.pt": "7389cef40ad61453075a922d116241d3521df291fbf26c69c8624796799c7b6b"
+  },
+  "parameters": 12801,
+  "dtype": "torch.float64",
+  "device": "cpu",
+  "threads": 1,
+  "interop_threads": 1,
+  "best_loss": 0.007383674014994381,
+  "accepted_steps": 773,
+  "outer_attempts": 774,
+  "closures_attempted": 1576,
+  "closures_completed": 1576,
+  "post_step_objective_evaluations": 774,
+  "phase_steps": {
+    "lbfgs": 773
+  },
+  "stop": "fit_time_including_save_reserve",
+  "failure": null,
+  "eligible": true,
+  "budget_seconds": 1200.0,
+  "save_reserve_seconds": 15.0,
+  "elapsed_including_setup_sampling_posteval_and_saving": 1185.4204298440018,
+  "cpu_seconds": 1177.3806731739999,
+  "save_seconds": 0.07388944400008768,
+  "budget_overrun": false,
+  "max_rss_kib": 1139624,
+  "torch_version": "2.14.1+cpu",
+  "reference_access": false
+}

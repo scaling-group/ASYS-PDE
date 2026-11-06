@@ -1,0 +1,18 @@
+# @package _global_
+application:
+  name: keller-segel-radial-2d
+  path: configs/eve/application/keller-segel-radial-2d
+  editable:
+    files:
+    - problems/blowup/ks_radial_2d/model.py
+    - problems/blowup/ks_radial_2d/loss.py
+    - problems/blowup/ks_radial_2d/optim.py
+    - problems/blowup/ks_radial_2d/config.yaml
+    folders: []
+  boundary_failure_score:
+    score: -1000000000.0
+    physics: -1000000000.0
+    ic: -1000000000.0
+    bc: -1000000000.0
+    summary: candidate boundary check failed
+    ic_tangent: -1000000000.0

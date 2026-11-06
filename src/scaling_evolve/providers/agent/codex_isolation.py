@@ -1,0 +1,272 @@
+"""Thin Codex trust-shim helpers for tmux-driven sessions."""
+
+from __future__ import annotations
+
+import json
+import shutil
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+from scaling_evolve.providers.agent.codex_hooks import render_trusted_hook_state_toml
+
+
+@dataclass(frozen=True)
+class CodexLaunchConfig:
+    """Minimal launch configuration required for Codex trust bootstrap."""
+
+    worktree_root: Path
+    hooks_json_path: Path | None = None
+    hook_trust_source_path: Path | None = None
+    trusted_project_roots: tuple[Path, ...] = ()
+    project_root_markers: tuple[str, ...] | None = ()
+    model: str | None = None
+    model_reasoning_effort: str | None = None
+
+
+@dataclass(frozen=True)
+class IsolatedCodexHome:
+    """Resolved per-workspace Codex HOME tree."""
+
+    root: Path
+    codex_dir: Path
+    auth_path: Path
+    config_path: Path
+
+    def env(self) -> dict[str, str]:
+        """Return the environment variables needed for Codex launch."""
+
+        return {"HOME": str(self.root), "CODEX_HOME": str(self.codex_dir)}
+
+
+def create_isolated_codex_home(
+    *,
+    home_root: Path,
+    source_auth_path: Path | None,
+    launch: CodexLaunchConfig,
+) -> IsolatedCodexHome:
+    """Create a thin HOME tree that only bootstraps project trust and auth."""
+
+    resolved_home = home_root.expanduser().resolve()
+    codex_dir = resolved_home / ".codex"
+    codex_dir.mkdir(parents=True, exist_ok=True)
+    auth_path = codex_dir / "auth.json"
+    if source_auth_path is not None and source_auth_path.exists():
+        if auth_path.exists() or auth_path.is_symlink():
+            auth_path.unlink()
+        auth_path.symlink_to(source_auth_path.expanduser().resolve())
+
+    config_path = codex_dir / "config.toml"
+    config_path.write_text(_render_config_toml(launch), encoding="utf-8")
+    return IsolatedCodexHome(
+        root=resolved_home,
+        codex_dir=codex_dir,
+        auth_path=auth_path,
+        config_path=config_path,
+    )
+
+
+def reset_isolated_codex_home(
+    *,
+    home: IsolatedCodexHome,
+    source_auth_path: Path | None,
+    launch: CodexLaunchConfig,
+) -> IsolatedCodexHome:
+    """Rewrite the trust shim and prune provider-managed runtime residue."""
+
+    refreshed = create_isolated_codex_home(
+        home_root=home.root,
+        source_auth_path=source_auth_path,
+        launch=launch,
+    )
+    _prune_home(refreshed)
+    refreshed.config_path.write_text(_render_config_toml(launch), encoding="utf-8")
+    return refreshed
+
+
+def latest_rollout_path(
+    codex_home: Path,
+    *,
+    after_mtime_ns: int | None = None,
+) -> Path | None:
+    """Return the newest rollout JSONL path under a Codex home."""
+
+    sessions_root = codex_home / ".codex" / "sessions"
+    if not sessions_root.exists():
+        return None
+    candidates = sorted(sessions_root.rglob("rollout-*.jsonl"))
+    if after_mtime_ns is not None:
+        candidates = [path for path in candidates if path.stat().st_mtime_ns >= after_mtime_ns]
+    return candidates[-1] if candidates else None
+
+
+def rollout_path_for_session(codex_home: Path, *, session_id: str) -> Path | None:
+    """Return the rollout JSONL path that belongs to one provider session id."""
+
+    sessions_root = codex_home / ".codex" / "sessions"
+    if not sessions_root.exists():
+        return None
+    for path in sorted(sessions_root.rglob("rollout-*.jsonl")):
+        if extract_session_id(path) == session_id:
+            return path
+    return None
+
+
+def extract_last_assistant_message(session_jsonl: Path) -> str | None:
+    """Extract the last assistant-facing message text from one rollout JSONL file."""
+
+    last_message: str | None = None
+    for line in session_jsonl.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        payload = _load_json_line(line)
+        if payload is None:
+            continue
+        if payload.get("type") == "event_msg":
+            inner = _mapping(payload.get("payload"))
+            if inner.get("type") == "agent_message":
+                message = inner.get("message")
+                if isinstance(message, str) and message.strip():
+                    last_message = message.strip()
+        if payload.get("type") == "response_item":
+            item = _mapping(payload.get("payload"))
+            if item.get("type") != "message" or item.get("role") != "assistant":
+                continue
+            content = item.get("content")
+            if not isinstance(content, list):
+                continue
+            for block in content:
+                block_mapping = _mapping(block)
+                text = block_mapping.get("text")
+                if isinstance(text, str) and text.strip():
+                    last_message = text.strip()
+    return last_message
+
+
+def extract_session_id(session_jsonl: Path) -> str | None:
+    """Extract the provider session id from one rollout JSONL file."""
+
+    for line in session_jsonl.read_text(encoding="utf-8").splitlines():
+        payload = _load_json_line(line)
+        if payload is None or payload.get("type") != "session_meta":
+            continue
+        meta = _mapping(payload.get("payload"))
+        session_id = meta.get("id")
+        if isinstance(session_id, str) and session_id.strip():
+            return session_id.strip()
+    return None
+
+
+def extract_usage(session_jsonl: Path, *, from_line: int = 0) -> dict[str, int]:
+    """Extract token usage fields from the latest Codex token-count event."""
+
+    usage = {
+        "input_tokens": 0,
+        "cached_input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_output_tokens": 0,
+        "agent_turns": 0,
+    }
+    for line in session_jsonl.read_text(encoding="utf-8").splitlines()[from_line:]:
+        payload = _load_json_line(line)
+        if payload is None or payload.get("type") != "event_msg":
+            continue
+        outer = _mapping(payload.get("payload"))
+        if outer.get("type") == "agent_message":
+            usage["agent_turns"] += 1
+            continue
+        if outer.get("type") != "token_count":
+            continue
+        info = _mapping(outer.get("info"))
+        total = _mapping(info.get("total_token_usage"))
+        if not total:
+            continue
+        usage = {
+            "input_tokens": _int_value(total.get("input_tokens")),
+            "cached_input_tokens": _int_value(total.get("cached_input_tokens")),
+            "output_tokens": _int_value(total.get("output_tokens")),
+            "reasoning_output_tokens": _int_value(total.get("reasoning_output_tokens")),
+            "agent_turns": usage["agent_turns"],
+        }
+    return usage
+
+
+def _render_config_toml(launch: CodexLaunchConfig) -> str:
+    trusted_projects = _trusted_project_roots(launch)
+    lines: list[str] = []
+    if launch.project_root_markers is not None:
+        lines.append(f"project_root_markers = {json.dumps(list(launch.project_root_markers))}")
+        lines.append("")
+    if launch.model is not None:
+        lines.append(f"model = {json.dumps(launch.model)}")
+    if launch.model_reasoning_effort is not None:
+        lines.append(f"model_reasoning_effort = {json.dumps(launch.model_reasoning_effort)}")
+    if launch.model is not None or launch.model_reasoning_effort is not None:
+        lines.append("")
+    lines.extend(["[features]", "hooks = true", ""])
+    for project_root in trusted_projects:
+        lines.extend(
+            [
+                f"[projects.{json.dumps(str(project_root))}]",
+                'trust_level = "trusted"',
+                "",
+            ]
+        )
+    config_text = "\n".join(lines).rstrip() + "\n"
+    trust_source_path = launch.hook_trust_source_path or launch.hooks_json_path
+    trust_state = render_trusted_hook_state_toml(
+        trust_source_path,
+        trust_key_hooks_json_path=launch.hooks_json_path,
+    )
+    if trust_state:
+        config_text = f"{config_text}\n{trust_state}"
+    return config_text
+
+
+def _trusted_project_roots(launch: CodexLaunchConfig) -> tuple[Path, ...]:
+    roots: list[Path] = [launch.worktree_root.resolve()]
+    roots.extend(root.resolve() for root in launch.trusted_project_roots)
+    if launch.hooks_json_path is not None:
+        hooks_path = launch.hooks_json_path.expanduser().resolve()
+        if hooks_path.parent.name == ".codex":
+            roots.append(hooks_path.parent.parent.resolve())
+    deduped: list[Path] = []
+    seen: set[str] = set()
+    for root in roots:
+        key = str(root)
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(root)
+    return tuple(deduped)
+
+
+def _prune_home(home: IsolatedCodexHome) -> None:
+    keep = {"auth.json", "config.toml", "sessions"}
+    for child in home.codex_dir.iterdir():
+        if child.name in keep:
+            continue
+        if child.is_dir() and not child.is_symlink():
+            shutil.rmtree(child, ignore_errors=True)
+            continue
+        try:
+            child.unlink()
+        except FileNotFoundError:
+            continue
+
+
+def _load_json_line(line: str) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(line)
+    except json.JSONDecodeError:
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def _mapping(value: object) -> dict[str, Any]:
+    return value if isinstance(value, dict) else {}
+
+
+def _int_value(value: object) -> int:
+    return int(value) if isinstance(value, int | float) else 0

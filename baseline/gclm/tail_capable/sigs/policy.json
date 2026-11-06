@@ -1,0 +1,118 @@
+{
+  "task": {
+    "anchor": 0.25,
+    "public_anchors": [
+      0.25
+    ],
+    "across_a_family": false,
+    "reference_access": false,
+    "new_model_calls": false,
+    "imported_fitted_or_search_state": false
+  },
+  "upstream": {
+    "release_revision": "b7e5f6d44f0b1dd39a64aaf4e4a3dd30d5497140",
+    "assets": [
+      "assets/model.ckpt",
+      "assets/clusters.pkl"
+    ],
+    "decoder": "structure.Decoder",
+    "proposal_mechanics": "stored broad/focused sampling and latent decoder/CMA; no target-specific atoms"
+  },
+  "objective": {
+    "physics_scale": 1,
+    "gauge_penalty_scale": 0,
+    "gauges": "Raw slope and oddness encoded; center normalization retained differentiably during fit, frozen in exported state. Gauge resolution is an admission check.",
+    "relative_residual": "signed sum of four terms squared / sum of four term squares; normalize terms before squaring, no absolute denominator floor",
+    "radius_measure": "trapezoidal mean in log radius over candidate-specific raw mass .001/.999 quantiles plus two-unit guards",
+    "state_selection": "last complete measured update, followed by a fresh support/proxy check; no outcome-picked best iterate"
+  },
+  "support": {
+    "extents": [
+      18,
+      36,
+      72,
+      144,
+      288,
+      576
+    ],
+    "step": 0.25,
+    "refinements": 6,
+    "mass_relative_tolerance": 1e-08,
+    "shell_width": 4,
+    "quantiles": [
+      0.001,
+      0.999
+    ],
+    "guard": 2,
+    "description": "raw mass survey, not reference gauge or fixed canonical radius; require mesh/phase/domain/shell resolution"
+  },
+  "coarse": {
+    "seconds": 30,
+    "validation_reserve_seconds": 5,
+    "max_field_elements": 25000000,
+    "max_closures": 500,
+    "collocation": 97,
+    "quadrature": 128,
+    "refresh_updates": 10,
+    "proxy_absolute_tolerance": 0.0005,
+    "stages": [
+      {
+        "kind": "adam",
+        "lr": 0.001,
+        "updates": 20
+      },
+      {
+        "kind": "lbfgs",
+        "lr": 0.5,
+        "updates": 20
+      }
+    ]
+  },
+  "terminal": {
+    "seconds": 1200,
+    "validation_reserve_seconds": 30,
+    "max_field_elements": 5000000000,
+    "max_closures": 25000,
+    "collocation": 193,
+    "quadrature": 256,
+    "refresh_updates": 100,
+    "proxy_absolute_tolerance": 5e-05,
+    "stages": [
+      {
+        "kind": "adam",
+        "lr": 0.01,
+        "updates": 20000,
+        "cosine": true
+      }
+    ]
+  },
+  "proposed_search": {
+    "slots": [
+      2
+    ],
+    "seeds": [
+      0,
+      1
+    ],
+    "broad_draws": 60,
+    "focused_rounds": 2,
+    "focused_draws": 60,
+    "cma": {
+      "population": 20,
+      "generations": 100,
+      "sigma": 0.5
+    },
+    "attempt_ceiling": 5000,
+    "coarse_seconds": 7200,
+    "pool": 4,
+    "terminal_initialization": "retained coarse raw state from this cold run only",
+    "common_assess_and_fresh_replay_seconds_per_terminal": 120,
+    "booked_upper_bound_seconds": 31200
+  },
+  "selector": {
+    "rule": "lowest qualified positive common loss, earliest terminal ordinal on exact tie; unresolved/rejected None never ranked",
+    "terminal_states": "assess every completed fit-eligible retained terminal state within declared cap; record every failed/unvisited/reserved state",
+    "coarse_pool": "fresh resolved core-aware fitting proxy, never fixed-window public score or reference"
+  },
+  "compactified_coordinate": "v=(1+x*x)^(-1/(2*beta))"
+}

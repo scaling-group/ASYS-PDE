@@ -1,0 +1,188 @@
+{
+  "original_files": {
+    "cohort/asys-h1/model_config.json": {
+      "exported_source": "gclm/cohort/H1-revision16/evaluation/model_config.json",
+      "sha256": "fb6dbadbae201dc8a0ac7b6cfea8fd7602aabb8bf86f401e5262176bac9f4249"
+    },
+    "cohort/asys-h1/normalization.json": {
+      "exported_source": "gclm/cohort/H1-revision16/evaluation/normalization.json",
+      "sha256": "1d94f549869c55baeb9bf6bffa0fb8ce1c49b05b02174f3cbdcf5f7438cbb82d"
+    },
+    "cohort/asys-h1/state_dict.pt": {
+      "exported_source": "gclm/cohort/H1-revision16/evaluation/state_dict.pt",
+      "sha256": "93838ca8831c0e67e3fb0bda330fc27c42ed9249f1f9d2a17431315b2a3a17d4"
+    },
+    "cohort/asys-h1/model.py": {
+      "exported_source": "gclm/cohort/H1-revision16/source/model.py",
+      "sha256": "cf7fcba17b3821037e62bc0964c6dff79d84c1ffe2f84b9c483943c299321edd"
+    },
+    "cohort/asys-h2/model_config.json": {
+      "exported_source": "gclm/cohort/H2-revision16/evaluation/model_config.json",
+      "sha256": "fc96e0b3d3d45d0f9dd6056413af972d00d882418499e6d0346e45058f163bd9"
+    },
+    "cohort/asys-h2/normalization.json": {
+      "exported_source": "gclm/cohort/H2-revision16/evaluation/normalization.json",
+      "sha256": "5e665dcdb339196eb4dc61289bf21835b2cfcb0c449230367466b436929fbf4f"
+    },
+    "cohort/asys-h2/state_dict.pt": {
+      "exported_source": "gclm/cohort/H2-revision16/evaluation/state_dict.pt",
+      "sha256": "994204e9b5017abf5c7cb0fd211a140d211be3a88944ac2803069b2c3f702b75"
+    },
+    "cohort/asys-h2/model.py": {
+      "exported_source": "gclm/cohort/H2-revision16/source/model.py",
+      "sha256": "347534b088e06725626ec0f2ffb5cc3c14ccd00c409a30b5c169818036cba904"
+    },
+    "selected/model_config.json": {
+      "exported_source": "gclm/cohort/H3-revision10/evaluation/model_config.json",
+      "sha256": "4d534a00f2c77453f6bc07ef5f3977fde3aff6aefdfd5abbf2b8c6269d6dae30"
+    },
+    "selected/normalization.json": {
+      "exported_source": "gclm/cohort/H3-revision10/evaluation/normalization.json",
+      "sha256": "a4c60bc89174d5514e19169c36fd789719f8bf7c890dd4ffc236ee8af241e0fc"
+    },
+    "selected/state_dict.pt": {
+      "exported_source": "gclm/cohort/H3-revision10/evaluation/state_dict.pt",
+      "sha256": "d017e83c8982e12860d39911be372f0e584f6ebb8c4a09d69ffe5cad6ac8ef06"
+    },
+    "selected/model.py": {
+      "exported_source": "gclm/cohort/H3-revision10/source/model.py",
+      "sha256": "e3c586e841222a671f9cc1db1e0a8d149c6cba07eb78fe1ae5bb6ba11cb67865"
+    },
+    "cohort/asys-h4/model_config.json": {
+      "exported_source": "gclm/cohort/H4-revision19/evaluation/model_config.json",
+      "sha256": "fb6dbadbae201dc8a0ac7b6cfea8fd7602aabb8bf86f401e5262176bac9f4249"
+    },
+    "cohort/asys-h4/normalization.json": {
+      "exported_source": "gclm/cohort/H4-revision19/evaluation/normalization.json",
+      "sha256": "1775d644e8de2fa3dae1ddcdeeaef528676f592d4c863079bf50166b9ee6cc0e"
+    },
+    "cohort/asys-h4/state_dict.pt": {
+      "exported_source": "gclm/cohort/H4-revision19/evaluation/state_dict.pt",
+      "sha256": "6d412fc36faf3859229f1c5022d467a791763e96eac3a4b76b72d51ff82bf572"
+    },
+    "cohort/asys-h4/model.py": {
+      "exported_source": "gclm/cohort/H4-revision19/source/model.py",
+      "sha256": "e954f97a1e1ab83b8da03d0cb6cc54c90b39d29c5511dc0908b8c7bcf9e8fdce"
+    },
+    "cohort/asys-h5/model_config.json": {
+      "exported_source": "gclm/cohort/H5-revision7/evaluation/model_config.json",
+      "sha256": "fc96e0b3d3d45d0f9dd6056413af972d00d882418499e6d0346e45058f163bd9"
+    },
+    "cohort/asys-h5/normalization.json": {
+      "exported_source": "gclm/cohort/H5-revision7/evaluation/normalization.json",
+      "sha256": "831783965571d18f2fc5a5b021c9c91f59fd2c48d9dedaa47a4ec35296588cd6"
+    },
+    "cohort/asys-h5/state_dict.pt": {
+      "exported_source": "gclm/cohort/H5-revision7/evaluation/state_dict.pt",
+      "sha256": "bbb0acfceaf67c66ead1160ec3766f7955f768ab3d0e54d90a018da1b3fc76d1"
+    },
+    "cohort/asys-h5/model.py": {
+      "exported_source": "gclm/cohort/H5-revision7/source/model.py",
+      "sha256": "8c51d75507d31c76bfa9dd849c3e8b3bf03984f9ab18f1a8e628a1f925180c8a"
+    },
+    "cohort/sigs-0/candidate.json": {
+      "exported_source": "gclm/baselines/sigs-0/terminal-02/saved/candidate.json",
+      "sha256": "6f878ec60242601be533ee8614748d84987c46cf216b7e57cd6db1446e58f38d"
+    },
+    "cohort/sigs-0/state_dict.pt": {
+      "exported_source": "gclm/baselines/sigs-0/terminal-02/saved/state_dict.pt",
+      "sha256": "c97ca3d2e20a541e137c5c7b013c2489b4054fafb23d7d7ea0040fee803b6814"
+    },
+    "cohort/sigs-0/formula.json": {
+      "exported_source": "gclm/baselines/sigs-0/terminal-02/formula.json",
+      "sha256": "b4fd6775522b60243b86d83dd9244763a18c7d0b6134c080e5c3dc22244e9646"
+    },
+    "cohort/sigs-1/candidate.json": {
+      "exported_source": "gclm/baselines/sigs-1/terminal-03/saved/candidate.json",
+      "sha256": "01ae9e359d7f505fa26825d3783b415f9c87a8b3e8e29bdca9bc86b4a3905400"
+    },
+    "cohort/sigs-1/state_dict.pt": {
+      "exported_source": "gclm/baselines/sigs-1/terminal-03/saved/state_dict.pt",
+      "sha256": "0a3380bdbe93bc80d08bf4be7b43ddd19a89586ab6bb9fb9584d8467b8b7d474"
+    },
+    "cohort/sigs-1/formula.json": {
+      "exported_source": "gclm/baselines/sigs-1/terminal-03/formula.json",
+      "sha256": "efa709c816044baef1c0df7efea7883c7ab000f59bdb5f5da9a30ae0b56bafbe"
+    },
+    "cohort/fex-0/model_config.json": {
+      "exported_source": "gclm/baselines/fex-0/terminal-02/model_config.json",
+      "sha256": "8ba99249f1d60382cc00ad2b2f5b3349d3ed68e0b1eea7b5244793fe5fe4151e"
+    },
+    "cohort/fex-0/normalization.json": {
+      "exported_source": "gclm/baselines/fex-0/terminal-02/normalization.json",
+      "sha256": "dc88959ba0f9a9f5a1c42cb9160648fc73312aae3785a6928960a9f26c5cb76a"
+    },
+    "cohort/fex-0/frozen_state_dict.pt": {
+      "exported_source": "gclm/baselines/fex-0/terminal-02/frozen_state_dict.pt",
+      "sha256": "46294d95e63dc32fc877b759da830b0a0dec0b2025131176108074554921a41d"
+    },
+    "cohort/fex-0/formula.json": {
+      "exported_source": "gclm/baselines/fex-0/terminal-02/formula.json",
+      "sha256": "d02ff4d5d77997045b452908189c6652ca6ac944c37237be974fe075356295bc"
+    },
+    "cohort/fex-1/model_config.json": {
+      "exported_source": "gclm/baselines/fex-1/terminal-00/model_config.json",
+      "sha256": "75ba8e57ddabb865487781d607d0f8c639608c4d3eb322611da3acb7c06d8871"
+    },
+    "cohort/fex-1/normalization.json": {
+      "exported_source": "gclm/baselines/fex-1/terminal-00/normalization.json",
+      "sha256": "2d74b51de65b71f4e278cb5c08506890800b173786ded3d57ee0523908929716"
+    },
+    "cohort/fex-1/frozen_state_dict.pt": {
+      "exported_source": "gclm/baselines/fex-1/terminal-00/frozen_state_dict.pt",
+      "sha256": "f7132b26607d361c98e8ca69020313e1116bf46ac5803e9c688b5672d9a272b6"
+    },
+    "cohort/fex-1/formula.json": {
+      "exported_source": "gclm/baselines/fex-1/terminal-00/formula.json",
+      "sha256": "0986496cd1d6400d8a21638af26a21afaf99191aa4c94eacdf79a472c32246bb"
+    },
+    "cohort/source/sigs_expression.py": {
+      "exported_source": "gclm/baselines/sigs-0/source/expression.py",
+      "sha256": "ad3c9d15a5121130657872ebc393093501a4dc65704501089c6738c21bbe7fbf"
+    },
+    "cohort/source/fex_model.py": {
+      "exported_source": "gclm/baselines/fex-0/source/model.py",
+      "sha256": "8a3b60ae7a99571ca52ddb3736fa33633e16816495b4f36acf16629f75667751"
+    }
+  },
+  "expected.json": "Scientific fields extracted without numerical changes from each original readout.json. Timings, allocation paths and search bookkeeping omitted.",
+  "readout_sources": {
+    "baselines/fex-0/readout.json": {
+      "exported_source": "gclm/baselines/fex-0/readout.json",
+      "sha256": "fe175658bee08418bed7e5eb635b89bad1ac5c833e525e48c4deb548a982b9a0"
+    },
+    "baselines/fex-1/readout.json": {
+      "exported_source": "gclm/baselines/fex-1/readout.json",
+      "sha256": "3c0eb359af77e5c1c3fdc21b1271882074419759f1e735787ed803903d7f15b1"
+    },
+    "baselines/sigs-0/readout.json": {
+      "exported_source": "gclm/baselines/sigs-0/readout.json",
+      "sha256": "109fa5bef96d704c101fd1f6c1f6e594211f41679c47ee13cd08d07c4b58c621"
+    },
+    "baselines/sigs-1/readout.json": {
+      "exported_source": "gclm/baselines/sigs-1/readout.json",
+      "sha256": "a08336a76c7bd0821e7068e8ed7f1d2ba9a2a780c7f1c9a19908b0dfeaf9a758"
+    },
+    "cohort/H1-revision16/readout.json": {
+      "exported_source": "gclm/cohort/H1-revision16/readout.json",
+      "sha256": "bfb00114c8dcb9608ba5b63cb97e3f1ae385c54c7a11ed5821faa9508228efb6"
+    },
+    "cohort/H2-revision16/readout.json": {
+      "exported_source": "gclm/cohort/H2-revision16/readout.json",
+      "sha256": "0a04b8d1b08e53e1ed9bd019fc24cbea6b91a6f4894c06d6278e62e3a477032e"
+    },
+    "cohort/H3-revision10/readout.json": {
+      "exported_source": "gclm/cohort/H3-revision10/readout.json",
+      "sha256": "c60b59d7cf048ccf2f06f7d707924f104cdbf16bceb1c57d1c56f1bf1a8ab27c"
+    },
+    "cohort/H4-revision19/readout.json": {
+      "exported_source": "gclm/cohort/H4-revision19/readout.json",
+      "sha256": "d7797910c2f186fe5852d9d10b214be08ff5b3976dfdf6d3536e350596d880c5"
+    },
+    "cohort/H5-revision7/readout.json": {
+      "exported_source": "gclm/cohort/H5-revision7/readout.json",
+      "sha256": "49ed9849a48f28542beb3369fcade9db1dae3104fd5706a49975fa17fdf8524d"
+    }
+  },
+  "recovery_manifest_sha256": "5a84075980c14cf4870867ad9597fecd7fce49f974db9ceedaccdbb2a7ce2ed3"
+}

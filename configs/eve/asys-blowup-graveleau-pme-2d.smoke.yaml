@@ -1,0 +1,13 @@
+defaults:
+  - asys-blowup-graveleau-pme-2d
+  - _self_
+label: asys-blowup-graveleau-pme-2d-smoke
+loop:
+  max_iterations: 2
+  n_workers_phase2: 1
+logger:
+  enabled: false
+  csv:
+    enabled: false
+  wandb:
+    enabled: false

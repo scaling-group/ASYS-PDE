@@ -1,0 +1,15 @@
+# @package _global_
+# Fixed public NLS diagnostics and numerical fitting.
+evaluation:
+  steps:
+  - configs/eve/evaluation/nonlinear-schrodinger/evaluate.sh
+  failure_score:
+    score: -1.0e9
+    physics: -1.0e9
+    ic: -1.0e9
+    ic_tangent: -1.0e9
+    bc: -1.0e9
+    ic_for_selection: -1.0e9
+    summary: NLS numerical evaluation failed
+  seed_solver_score: null
+  seed_solver_skip_evaluation: false

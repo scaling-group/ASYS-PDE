@@ -1,0 +1,12 @@
+{
+  "case": "eps02-a08-space-refinement",
+  "a": 0.08,
+  "eps": 0.02,
+  "n": 768,
+  "dt": 0.00390625,
+  "R0": 0.28,
+  "equation": "u_t=eps^2 Laplacian(u)+u-u^3",
+  "domain": "[-1,1)^2 periodic",
+  "initial": "tanh(actual signed Euclidean distance/(sqrt(2)*eps)), positive inside",
+  "status": "running"
+}

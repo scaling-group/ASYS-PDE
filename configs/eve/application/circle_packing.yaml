@@ -1,0 +1,14 @@
+# @package _global_
+# Circle packing application definition
+
+application:
+  name: evolve-testbed
+  github_url: https://github.com/scaling-group/evolve-testbed
+  commit: 6ac22c440e241b7e19d89fff91cc4f9841cc951d
+  editable:
+    files:
+      - candidate.py
+    folders: []
+  boundary_failure_score:
+    score: 0.0
+    summary: boundary check failed

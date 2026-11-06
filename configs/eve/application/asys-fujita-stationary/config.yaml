@@ -1,0 +1,3 @@
+train_points_per_stratum: 256
+max_steps: 100000
+learning_rate: 0.01

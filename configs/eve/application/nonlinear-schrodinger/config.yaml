@@ -1,0 +1,7 @@
+seed: 0
+n_collocation: 2048
+optimizer: LBFGS
+lr: 0.8
+history_size: 100
+max_eval: 25
+max_steps: 100000

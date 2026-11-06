@@ -1,0 +1,30 @@
+{
+  "case": "eps04-a00",
+  "a": 0.0,
+  "eps": 0.04,
+  "n": 512,
+  "dt": 0.00390625,
+  "R0": 0.28,
+  "equation": "u_t=eps^2 Laplacian(u)+u-u^3",
+  "domain": "[-1,1)^2 periodic",
+  "initial": "tanh(actual signed Euclidean distance/(sqrt(2)*eps)), positive inside",
+  "status": "complete",
+  "distance": {
+    "method": "exact circle distance",
+    "projection_stationarity_max": 0.0
+  },
+  "initial_array_sha256": "561f4bab250e186ed292e7f986c31292694b98f190fc83c04eecc6f792d5a897",
+  "steps": 1920,
+  "saved_times": 61,
+  "extraction_checks": [],
+  "arrays": {
+    "contours.npz": {
+      "sha256": "922fc6b7b1d6ed0b469ae1c95f1b0070fd80f5ec8a127ce552554ead8ca5dd56",
+      "bytes": 43406
+    },
+    "metrics.csv": {
+      "sha256": "794dd65d7f8aed65721231e0a4270743bf332cbeed49a9e1fe66a2bda4f08c20",
+      "bytes": 21321
+    }
+  }
+}

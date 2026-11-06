@@ -1,0 +1,48 @@
+{
+  "objective": {
+    "physics_scale": 1,
+    "gauge_penalty_scale": 0,
+    "gauges": "Raw slope and oddness encoded; center normalization retained differentiably during fit, frozen in exported state. Gauge resolution is an admission check.",
+    "relative_residual": "signed sum of four terms squared / sum of four term squares; normalize terms before squaring, no absolute denominator floor",
+    "radius_measure": "trapezoidal mean in log radius over candidate-specific raw mass .001/.999 quantiles plus two-unit guards",
+    "state_selection": "last complete measured update, followed by a fresh support/proxy check; no outcome-picked best iterate"
+  },
+  "support": {
+    "extents": [
+      18,
+      36,
+      72,
+      144,
+      288,
+      576
+    ],
+    "step": 0.25,
+    "refinements": 6,
+    "mass_relative_tolerance": 1e-08,
+    "shell_width": 4,
+    "quantiles": [
+      0.001,
+      0.999
+    ],
+    "guard": 2,
+    "description": "raw mass survey, not reference gauge or fixed canonical radius; require mesh/phase/domain/shell resolution"
+  },
+  "terminal": {
+    "seconds": 3600,
+    "validation_reserve_seconds": 30,
+    "max_field_elements": 5000000000,
+    "max_closures": 25000,
+    "collocation": 193,
+    "quadrature": 256,
+    "refresh_updates": 100,
+    "proxy_absolute_tolerance": 5e-05,
+    "stages": [
+      {
+        "kind": "adam",
+        "lr": 0.01,
+        "updates": 20000,
+        "cosine": true
+      }
+    ]
+  }
+}

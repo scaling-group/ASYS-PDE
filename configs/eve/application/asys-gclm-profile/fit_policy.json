@@ -1,0 +1,40 @@
+{
+  "support": {
+    "extents": [
+      18,
+      36,
+      72,
+      144,
+      288,
+      576
+    ],
+    "step": 0.25,
+    "refinements": 6,
+    "mass_relative_tolerance": 1e-08,
+    "shell_width": 4,
+    "quantiles": [
+      0.001,
+      0.999
+    ],
+    "guard": 2,
+    "description": "raw mass survey, not reference gauge or fixed canonical radius; require mesh/phase/domain/shell resolution"
+  },
+  "terminal": {
+    "seconds": 1200,
+    "validation_reserve_seconds": 30,
+    "max_field_elements": 5000000000,
+    "max_closures": 25000,
+    "collocation": 193,
+    "quadrature": 256,
+    "refresh_updates": 100,
+    "proxy_absolute_tolerance": 5e-05,
+    "stages": [
+      {
+        "kind": "adam",
+        "lr": 0.01,
+        "updates": 20000,
+        "cosine": true
+      }
+    ]
+  }
+}

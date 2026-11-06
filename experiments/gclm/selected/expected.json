@@ -1,0 +1,21 @@
+{
+  "beta": 0.6845136212067134,
+  "alpha": 1.460891308834911,
+  "C": 1.7537812473435817,
+  "D": 1.267802397311343,
+  "lambda_D": 2.847507209692644,
+  "K": 0.4121828309082989,
+  "tail_balance_error_percent": 0.0024930384652677162,
+  "provenance": {
+    "source": "paper-assets/asys/data/figure-data/gclm.json",
+    "source_sha256": "c389e4082a81009e0d9e9cbe85e3aa55f0eaf48c1bc4caf44d93811dc5c212d2",
+    "upstream_tail_readout": "output/results-overview-sample/gclm-nls-source-readouts.json",
+    "original_values": [
+      "beta",
+      "alpha",
+      "C",
+      "D"
+    ],
+    "derived_values": "lambda_D, K and signed tail balance computed from these original coefficients using the manuscript equations."
+  }
+}

@@ -1,0 +1,14 @@
+# @package _global_
+application:
+  name: asys-gclm-profile
+  path: configs/eve/application/asys-gclm-profile
+  editable:
+    files:
+    - model.py
+    folders: []
+  boundary_failure_score:
+    physics: -1000000000.0
+    normalization: -1000000000.0
+    refinement: -1000000000.0
+    summary: matched profile evaluation failed
+    score: -1000000000.0

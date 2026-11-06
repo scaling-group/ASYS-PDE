@@ -1,0 +1,7 @@
+{
+  "expression": "0.1*(cos(x + 76)) + 0.1*(-6 * x * (x + 4))",
+  "anchor": 0.25,
+  "center_mass": 0.6472514089263981,
+  "initial_beta": 1.0,
+  "normalization": "creation-time frozen state"
+}

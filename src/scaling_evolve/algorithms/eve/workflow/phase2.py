@@ -1,0 +1,669 @@
+"""Phase 2 solver-generation workflow helpers."""
+
+from __future__ import annotations
+
+import logging
+import uuid
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from copy import deepcopy
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from optree import PyTree
+
+from scaling_evolve.algorithms.eve.populations.entry import PopulationEntry
+from scaling_evolve.algorithms.eve.rollout_prompts.default import PromptContext
+from scaling_evolve.algorithms.eve.workflow.evaluation import SolverEvaluator
+from scaling_evolve.algorithms.eve.workflow.optimize_logs import (
+    build_optimize_log_tree,
+)
+from scaling_evolve.algorithms.eve.workspace.runtime_hooks import (
+    install_workspace_runtime_hooks,
+)
+from scaling_evolve.algorithms.eve.workspace.solver_workspace import (
+    SolverWorkerConfig,
+    SolverWorkspaceBuilder,
+)
+from scaling_evolve.providers.agent.drivers.base import SessionDriver, SessionRollout, SessionSeed
+
+_LOGGER = logging.getLogger(__name__)
+_WORKSPACE_ID_HEX_LENGTH = 12
+
+
+@dataclass
+class Phase2Result:
+    """Committed result produced by one Phase 2 worker."""
+
+    optimizer: PopulationEntry
+    sampled_solvers: list[PopulationEntry] = field(default_factory=list)
+    sampled_optimizers: list[PopulationEntry] = field(default_factory=list)
+    prefill_solver: PopulationEntry | None = None
+    produced_solver: PopulationEntry | None = None
+    produced_optimizer: PopulationEntry | None = None
+    rollouts: list[SessionRollout] = field(default_factory=list)
+    optimizer_log_tree: dict[str, str] = field(default_factory=dict)
+    workspace_id: str = ""
+    worker_name: str = ""
+
+
+@dataclass(frozen=True)
+class SolverWorkspaceEvaluation:
+    """Evaluated solver workspace ready for population commit."""
+
+    entry: PopulationEntry
+    score: PyTree
+    evaluate_log_tree: dict[str, str]
+
+
+def phase2_boundary_repair_instruction(boundary_result: object, static_text: str) -> str:
+    summary = boundary_result.summary()
+    return "\n".join(
+        [
+            static_text.strip(),
+            "",
+            summary,
+        ]
+    )
+
+
+class Phase2Runner:
+    def __init__(
+        self,
+        *,
+        solver_workspace_builder: SolverWorkspaceBuilder,
+        driver: SessionDriver,
+        solver_evaluator: SolverEvaluator,
+        step_label: str,
+        iteration: int,
+        total_iterations: int | None = None,
+        optimizer_pop: object | None = None,
+    ) -> None:
+        self.solver_workspace_builder = solver_workspace_builder
+        self.driver = driver
+        self.solver_evaluator = solver_evaluator
+        self.step_label = step_label
+        self.iteration = iteration
+        self.total_iterations = total_iterations
+        self.optimizer_pop = optimizer_pop
+        self._reset_run_state()
+
+    def _reset_run_state(self) -> None:
+        self.optimizer: PopulationEntry | None = None
+        self.solvers: list[PopulationEntry] = []
+        self.optimizer_examples: list[PopulationEntry] = []
+        self.prefill_solver: PopulationEntry | None = None
+        self.workspace: Path | None = None
+        self.optimize_rollouts: list[SessionRollout] = []
+        self.optimize_log_tree: dict[str, str] = {}
+        self.boundary_result: object | None = None
+        self.worker_index: int = 0
+        self.worker_config: SolverWorkerConfig | None = None
+
+    def run_single(
+        self,
+        *,
+        optimizer: PopulationEntry,
+        solvers: list[PopulationEntry],
+        optimizer_examples: list[PopulationEntry] | None = None,
+        prefill_solver: PopulationEntry | None,
+        worker_index: int,
+    ) -> Phase2Result:
+        self._reset_run_state()
+        self.optimizer = optimizer
+        self.solvers = list(solvers)
+        self.optimizer_examples = list(optimizer_examples or [])
+        self.prefill_solver = prefill_solver
+        self.worker_index = worker_index
+        self.worker_config = self.solver_workspace_builder.select_worker_config(
+            worker_index=self.worker_index
+        )
+        self._build_workspace()
+        try:
+            self._run_agent()
+        except Exception as exc:
+            self._record_agent_error_for_partial_workspace(exc)
+        if self.workspace is None or self.boundary_result is None:
+            raise ValueError("Phase2Runner.run_single requires completed workspace state.")
+        evaluation = self.evaluate_workspace(
+            workspace_root=self.workspace,
+            solver_id=PopulationEntry.make_id("solver"),
+            sampled_solvers=self.solvers,
+            prefill_solver=self.prefill_solver,
+            optimize_logs=self.optimize_log_tree,
+            worker_index=self.worker_index,
+            boundary_result=self.boundary_result,
+        )
+        result = self._finalize_result(evaluation)
+        self._update_optimizer_logs(result)
+        return result
+
+    def _build_workspace(self) -> None:
+        if self.optimizer is None:
+            raise ValueError("Phase2Runner._build_workspace requires optimizer.")
+        if self.worker_config is None:
+            raise ValueError("Phase2Runner._build_workspace requires worker_config.")
+        workspace_id = f"{self.step_label}_{uuid.uuid4().hex[:_WORKSPACE_ID_HEX_LENGTH]}"
+        workspace, _ = self.solver_workspace_builder.build(
+            self.optimizer.files,
+            self.solvers,
+            workspace_id=workspace_id,
+            optimizer=self.optimizer,
+            worker_index=self.worker_index,
+            prefill_solver=self.prefill_solver,
+            optimizer_examples=self.optimizer_examples,
+            worker_config=self.worker_config,
+        )
+        if self.prefill_solver is None:
+            raise ValueError("Phase2Runner._build_workspace requires prefill_solver.")
+        self.solver_workspace_builder.write_immutable_assets(
+            workspace,
+            optimizer=self.optimizer,
+            solvers=self.solvers,
+            prefill_solver=self.prefill_solver,
+            optimizer_examples=self.optimizer_examples,
+            worker_config=self.worker_config,
+        )
+        self.workspace = workspace
+
+    def _run_agent(self) -> None:
+        if self.workspace is None or self.optimizer is None or self.worker_config is None:
+            raise ValueError(
+                "Phase2Runner._run_agent requires workspace, optimizer, and worker_config."
+            )
+        prompt_specs = self._build_prompt_specs()
+        install_workspace_runtime_hooks(
+            self.workspace, driver=self.driver, prompt_specs=prompt_specs
+        )
+        rollout = self.driver.spawn(
+            SessionSeed(
+                instruction=self.solver_workspace_builder.entrypoint_instruction(
+                    optimizer=self.optimizer,
+                    solvers=self.solvers,
+                    prefill_solver=self.prefill_solver,
+                    optimizer_examples=self.optimizer_examples,
+                    worker_config=self.worker_config,
+                ),
+                working_directory=str(self.workspace),
+                prompt_file="README.md" if (self.workspace / "README.md").is_file() else None,
+                write_prompt_file=False,
+                display_context=self._display_context(),
+            )
+        )
+        self.optimize_rollouts = [rollout]
+        boundary_result = self.solver_evaluator.check_boundary(
+            self.workspace,
+            solver_workspace_builder=self.solver_workspace_builder,
+        )
+        repair_attempts = 0
+        while (
+            not boundary_result.ok
+            and repair_attempts < self.solver_workspace_builder.config.boundary_repair_attempts
+        ):
+            repair_attempts += 1
+            install_workspace_runtime_hooks(
+                self.workspace, driver=self.driver, prompt_specs=prompt_specs
+            )
+            rollout = self.driver.resume(
+                rollout.state,
+                instruction=self.solver_workspace_builder.boundary_repair_instruction(
+                    boundary_result,
+                    worker_config=self.worker_config,
+                ),
+            )
+            self.optimize_rollouts.append(rollout)
+            boundary_result = self.solver_evaluator.check_boundary(
+                self.workspace,
+                solver_workspace_builder=self.solver_workspace_builder,
+            )
+        self.optimize_log_tree = build_optimize_log_tree(self.workspace, self.optimize_rollouts)
+        if not boundary_result.ok:
+            self.optimize_log_tree.setdefault(
+                "boundary/forbidden_changes.txt", boundary_result.summary() + "\n"
+            )
+        self.boundary_result = boundary_result
+
+    def _record_agent_error_for_partial_workspace(self, exc: BaseException) -> None:
+        if self.workspace is None:
+            raise ValueError(
+                "Phase2Runner._record_agent_error_for_partial_workspace requires workspace."
+            )
+        _LOGGER.warning(
+            "%s: agent failed for workspace `%s`; evaluating partial output.",
+            self._phase_log_prefix(),
+            self.workspace.name,
+            exc_info=exc,
+        )
+        self.optimize_log_tree = build_optimize_log_tree(self.workspace, self.optimize_rollouts)
+        self.optimize_log_tree["agent_error.txt"] = f"{type(exc).__name__}: {exc}\n"
+        self.boundary_result = self.solver_evaluator.check_boundary(
+            self.workspace,
+            solver_workspace_builder=self.solver_workspace_builder,
+        )
+
+    def _build_prompt_specs(self) -> list[dict[str, object]]:
+        if self.workspace is None:
+            raise ValueError("Phase2Runner._build_prompt_specs requires workspace.")
+        if self.worker_config is None:
+            raise ValueError("Phase2Runner._build_prompt_specs requires worker_config.")
+        if not _driver_budget_prompt_enabled(self.driver):
+            return []
+        ctx = PromptContext(
+            workspace=self.workspace,
+            rollout_max_turns=_driver_rollout_max_turns(self.driver),
+        )
+        prompt_specs: list[dict[str, object]] = []
+        for name, prompt in self.worker_config.rollout_prompts.items():
+            prompt_specs.append(
+                {
+                    "name": name,
+                    "system_text": prompt.system(ctx),
+                    "user_text": prompt.user(ctx),
+                    "turn_template": _turn_template_source(prompt),
+                    "turn_format_kwargs": _turn_format_kwargs(prompt, ctx),
+                }
+            )
+        return prompt_specs
+
+    def evaluate_workspace(
+        self,
+        *,
+        workspace_root: Path,
+        solver_id: str,
+        sampled_solvers: list[PopulationEntry],
+        prefill_solver: PopulationEntry | None,
+        optimize_logs: dict[str, str],
+        worker_index: int,
+        boundary_result: object | None = None,
+    ) -> SolverWorkspaceEvaluation:
+        if boundary_result is None:
+            boundary_result = self.solver_evaluator.check_boundary(
+                workspace_root,
+                solver_workspace_builder=self.solver_workspace_builder,
+            )
+        _LOGGER.info(
+            "%s: evaluating workspace `%s` as solver candidate `%s`",
+            self._phase_log_prefix(),
+            workspace_root.name,
+            solver_id,
+        )
+        candidate_files = self.solver_workspace_builder.extract(workspace_root)
+        score, evaluate_log_tree = self.solver_evaluator.evaluate_candidate(
+            workspace_root=workspace_root,
+            boundary_result=boundary_result,
+            candidate_files=candidate_files,
+            optimize_logs=optimize_logs,
+            solver_examples=sampled_solvers,
+            prefill_solver=prefill_solver,
+            display_context=self._display_context(worker_index=worker_index),
+        )
+        solver_logs = self.solver_workspace_builder.write_run_logs(
+            workspace_root,
+            optimize_logs=optimize_logs,
+            evaluate_logs=evaluate_log_tree,
+        )
+        produced_solver = PopulationEntry(
+            id=solver_id,
+            files=candidate_files,
+            score=score,
+            logs=solver_logs,
+        )
+        _LOGGER.info(
+            "%s: evaluation finished for solver candidate `%s`",
+            self._phase_log_prefix(),
+            solver_id,
+        )
+        return SolverWorkspaceEvaluation(
+            entry=produced_solver,
+            score=score,
+            evaluate_log_tree=evaluate_log_tree,
+        )
+
+    def _finalize_result(
+        self,
+        evaluation: SolverWorkspaceEvaluation,
+    ) -> Phase2Result:
+        if self.workspace is None or self.optimizer is None:
+            raise ValueError("Phase2Runner._finalize_result requires completed run state.")
+        optimizer_log_tree = self.solver_workspace_builder.build_phase2_optimizer_log_tree(
+            run_id=f"{self.step_label}_worker_{self.worker_index}",
+            produced_solver=evaluation.entry,
+            optimize_logs=self.optimize_log_tree,
+            evaluate_logs=evaluation.evaluate_log_tree,
+        )
+        produced_optimizer = self._build_phase2_optimizer(
+            produced_solver=evaluation.entry,
+            optimizer_log_tree=optimizer_log_tree,
+        )
+        return Phase2Result(
+            optimizer=self.optimizer,
+            sampled_solvers=list(self.solvers),
+            sampled_optimizers=list(self.optimizer_examples),
+            prefill_solver=self.prefill_solver,
+            produced_solver=evaluation.entry,
+            produced_optimizer=produced_optimizer,
+            rollouts=list(self.optimize_rollouts),
+            optimizer_log_tree=optimizer_log_tree,
+            workspace_id=self.workspace.name,
+            worker_name=self.worker_config.name if self.worker_config is not None else "",
+        )
+
+    def _build_phase2_optimizer(
+        self,
+        *,
+        produced_solver: PopulationEntry,
+        optimizer_log_tree: dict[str, str],
+    ) -> PopulationEntry | None:
+        if (
+            self.workspace is None
+            or int(self.solver_workspace_builder.config.produce_optimizer_in_phase2) <= 0
+        ):
+            return None
+        optimizer_files = self.solver_workspace_builder.extract_optimizer(
+            self.workspace,
+            worker_config=self.worker_config,
+        )
+        if not optimizer_files:
+            _LOGGER.warning(
+                "%s: produced no optimizer files in %s.",
+                self._phase_log_prefix(),
+                self.workspace,
+            )
+            return None
+        if self.optimizer is not None and optimizer_files == self.optimizer.files:
+            _LOGGER.warning(
+                "%s: produce_optimizer_in_phase2 is enabled but the guidance tree was not "
+                "modified; no optimizer candidate will be produced for solver %s.",
+                self._phase_log_prefix(),
+                produced_solver.id,
+            )
+            return None
+        logs = self._produced_optimizer_logs(
+            optimizer_log_tree,
+            produced_solver=produced_solver,
+        )
+        return PopulationEntry(
+            id=PopulationEntry.make_id("optimizer"),
+            files=optimizer_files,
+            score=deepcopy(self.optimizer.score if self.optimizer is not None else {}),
+            logs=logs,
+        )
+
+    def _produced_optimizer_logs(
+        self,
+        optimizer_log_tree: dict[str, str],
+        *,
+        produced_solver: PopulationEntry,
+    ) -> dict[str, str]:
+        inheritance = str(self.solver_workspace_builder.config.optimizer_log_inheritance)
+        if inheritance == "none":
+            return {}
+        if inheritance == "current":
+            current_step_root = f"{self.step_label}_worker_{self.worker_index}_{produced_solver.id}"
+            return {
+                path: content
+                for path, content in optimizer_log_tree.items()
+                if path.split("/", 1)[0] == current_step_root
+            }
+        raise ValueError(
+            f"loop.optimizer_log_inheritance must be `none` or `current`, got {inheritance!r}."
+        )
+
+    def _update_optimizer_logs(self, result: Phase2Result) -> None:
+        if self.optimizer_pop is None or result.produced_solver is None:
+            return
+        self.optimizer_pop.update_logs({result.optimizer.id: result.optimizer_log_tree})
+
+    def _phase_log_prefix(self) -> str:
+        if self.total_iterations is None:
+            return f"Iteration {self.iteration} | Phase 2"
+        return f"Iteration {self.iteration}/{self.total_iterations} | Phase 2"
+
+    def _display_context(self, *, worker_index: int | None = None) -> dict[str, str | int]:
+        worker_config = self.worker_config
+        context: dict[str, str | int] = {
+            "iteration": self.iteration,
+            "worker_index": self.worker_index if worker_index is None else worker_index,
+        }
+        if worker_config is not None:
+            context["worker_name"] = worker_config.name
+        return context
+
+
+def _driver_rollout_max_turns(driver: SessionDriver) -> int | None:
+    value = getattr(driver, "rollout_max_turns", None)
+    if not isinstance(value, int) or value <= 0:
+        return None
+    return value
+
+
+def _driver_budget_prompt_enabled(driver: SessionDriver) -> bool:
+    value = getattr(driver, "budget_prompt", True)
+    return value if isinstance(value, bool) else True
+
+
+def _turn_template_source(prompt: object) -> str | None:
+    turn_template_source = getattr(prompt, "turn_template_source", None)
+    if callable(turn_template_source):
+        value = turn_template_source()
+        return value if isinstance(value, str) and value else None
+    value = getattr(prompt, "_turn_template", None)
+    return value if isinstance(value, str) and value else None
+
+
+def _turn_format_kwargs(prompt: object, ctx: PromptContext) -> dict[str, object]:
+    turn_format_kwargs = getattr(prompt, "turn_format_kwargs", None)
+    if not callable(turn_format_kwargs):
+        return {}
+    value = turn_format_kwargs(ctx)
+    return value if isinstance(value, dict) else {}
+
+
+class Phase2BatchRunner:
+    def __init__(
+        self,
+        *,
+        solver_workspace_builder: SolverWorkspaceBuilder,
+        driver: SessionDriver,
+        solver_evaluator: SolverEvaluator,
+        step_label: str,
+        iteration: int,
+        total_iterations: int | None = None,
+        solver_pop: object,
+        optimizer_pop: object,
+        n_workers_phase2: int,
+        n_parallel_phase2: int,
+        n_solver_examples_phase2: int,
+        n_optimizer_examples_phase2: int,
+        n_produced_optimizers_phase2: int,
+        optimizer_sampler: object,
+        solver_sampler: object,
+        prefill_sampler: object,
+        optimizer_examples_sampler: object,
+        produced_optimizer_sampler: object,
+    ) -> None:
+        self.solver_workspace_builder = solver_workspace_builder
+        self.driver = driver
+        self.solver_evaluator = solver_evaluator
+        self.step_label = step_label
+        self.iteration = iteration
+        self.total_iterations = total_iterations
+        self.solver_pop = solver_pop
+        self.optimizer_pop = optimizer_pop
+        self.n_workers_phase2 = n_workers_phase2
+        self.n_parallel_phase2 = n_parallel_phase2
+        self.n_solver_examples_phase2 = n_solver_examples_phase2
+        self.n_optimizer_examples_phase2 = n_optimizer_examples_phase2
+        self.n_produced_optimizers_phase2 = n_produced_optimizers_phase2
+        self.optimizer_sampler = optimizer_sampler
+        self.solver_sampler = solver_sampler
+        self.prefill_sampler = prefill_sampler
+        self.optimizer_examples_sampler = optimizer_examples_sampler
+        self.produced_optimizer_sampler = produced_optimizer_sampler
+
+    def run(self) -> list[Phase2Result]:
+        optimizers = self._sample_optimizers()
+        solvers = self._sample_solvers()
+        if not optimizers:
+            _LOGGER.warning("Optimizer population is empty; skipping iteration.")
+            return []
+        optimizer_examples_by_worker = self._build_optimizer_examples_by_worker(optimizers)
+        results: list[Phase2Result] = []
+        with ThreadPoolExecutor(max_workers=min(len(optimizers), self.n_parallel_phase2)) as pool:
+            future_to_optimizer = {
+                pool.submit(
+                    Phase2Runner(
+                        solver_workspace_builder=self.solver_workspace_builder,
+                        driver=self.driver,
+                        solver_evaluator=self.solver_evaluator,
+                        step_label=self.step_label,
+                        iteration=self.iteration,
+                        total_iterations=self.total_iterations,
+                        optimizer_pop=self.optimizer_pop,
+                    ).run_single,
+                    optimizer=optimizer,
+                    solvers=solvers,
+                    optimizer_examples=optimizer_examples_by_worker[worker_index - 1],
+                    prefill_solver=self._sample_prefill_solver(solvers),
+                    worker_index=worker_index,
+                ): optimizer
+                for worker_index, optimizer in enumerate(optimizers, start=1)
+            }
+            for future in as_completed(future_to_optimizer):
+                optimizer = future_to_optimizer[future]
+                try:
+                    results.append(future.result())
+                except Exception:
+                    _LOGGER.exception(
+                        "%s: failed for optimizer %s; skipping.",
+                        self._phase_log_prefix(),
+                        optimizer.id,
+                    )
+        for result in results:
+            if result.produced_solver is None:
+                continue
+            self.solver_pop.add(result.produced_solver)
+            _LOGGER.info(
+                "%s: added solver candidate %s",
+                self._phase_log_prefix(),
+                result.produced_solver.id,
+            )
+        self._add_selected_phase2_optimizers(results)
+        return results
+
+    def _add_selected_phase2_optimizers(self, results: list[Phase2Result]) -> None:
+        produced_results = [
+            result
+            for result in results
+            if result.produced_optimizer is not None and result.produced_solver is not None
+        ]
+        if not produced_results:
+            return
+        if self.n_produced_optimizers_phase2 <= 0:
+            for result in produced_results:
+                result.produced_optimizer = None
+            return
+        selected_results = list(
+            self.produced_optimizer_sampler.sample(
+                produced_results,
+                [result.produced_solver.score for result in produced_results],
+                self.n_produced_optimizers_phase2,
+                rng=self.optimizer_pop._rng,
+            )
+        )
+        selected_result_ids = {id(result) for result in selected_results}
+        for result in produced_results:
+            if id(result) not in selected_result_ids:
+                result.produced_optimizer = None
+                continue
+            assert result.produced_optimizer is not None
+            self.optimizer_pop.add(result.produced_optimizer)
+            _LOGGER.info(
+                "%s: added optimizer candidate %s",
+                self._phase_log_prefix(),
+                result.produced_optimizer.id,
+            )
+
+    def _sample_optimizers(self) -> list[PopulationEntry]:
+        optimizer_entries = self.optimizer_pop.entries()
+        return list(
+            self.optimizer_sampler.sample(
+                optimizer_entries,
+                [entry.score for entry in optimizer_entries],
+                self.n_workers_phase2,
+                rng=self.optimizer_pop._rng,
+            )
+        )
+
+    def _sample_solvers(self) -> list[PopulationEntry]:
+        solver_entries = self.solver_pop.entries()
+        return list(
+            self.solver_sampler.sample(
+                solver_entries,
+                [entry.score for entry in solver_entries],
+                self.n_solver_examples_phase2,
+                rng=self.solver_pop._rng,
+            )
+        )
+
+    def _sample_prefill_solver(
+        self,
+        solvers: list[PopulationEntry],
+    ) -> PopulationEntry | None:
+        prefill_candidates = self.prefill_sampler.sample(
+            solvers,
+            [entry.score for entry in solvers],
+            1,
+            rng=self.solver_workspace_builder._rng,
+        )
+        return prefill_candidates[0] if prefill_candidates else None
+
+    def _build_optimizer_examples_by_worker(
+        self,
+        selected_optimizers: list[PopulationEntry],
+    ) -> list[list[PopulationEntry]]:
+        """Build guidance lists using the configured joint sampling policy."""
+        if self.n_optimizer_examples_phase2 <= 1:
+            sampled_references = [[] for _ in selected_optimizers]
+        else:
+            sampled_references = list(
+                self.optimizer_examples_sampler.sample(
+                    self.optimizer_pop.entries(),
+                    selected_optimizers,
+                    self.n_optimizer_examples_phase2 - 1,
+                    rng=self.optimizer_pop._rng,
+                )
+            )
+        if len(sampled_references) != len(selected_optimizers):
+            raise ValueError("optimizer example sampler must return one reference list per worker")
+        return [
+            self._build_worker_optimizer_examples(optimizer, references)
+            for optimizer, references in zip(
+                selected_optimizers,
+                sampled_references,
+                strict=True,
+            )
+        ]
+
+    def _build_worker_optimizer_examples(
+        self,
+        optimizer: PopulationEntry,
+        sampled_optimizer_examples: list[PopulationEntry],
+    ) -> list[PopulationEntry]:
+        """Build the per-worker optimizer examples for `guidance_examples/`.
+
+        Semantics are determined by `n_optimizer_examples_phase2`:
+
+        - `n_optimizer_examples_phase2 <= 0`: do not create optimizer examples.
+        - `n_optimizer_examples_phase2 == 1`: include only the current worker's
+          optimizer, which is also copied into `guidance/`.
+        - `n_optimizer_examples_phase2 > 1`: include the current worker's
+          optimizer plus up to `n-1` sampled reference optimizers.
+        """
+        if self.n_optimizer_examples_phase2 <= 0:
+            return []
+        return [optimizer, *sampled_optimizer_examples[: self.n_optimizer_examples_phase2 - 1]]
+
+    def _phase_log_prefix(self) -> str:
+        if self.total_iterations is None:
+            return f"Iteration {self.iteration} | Phase 2"
+        return f"Iteration {self.iteration}/{self.total_iterations} | Phase 2"

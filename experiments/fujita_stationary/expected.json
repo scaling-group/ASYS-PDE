@@ -1,0 +1,161 @@
+{
+  "case": "fujita_profile",
+  "metric": "resolved_trapezoid",
+  "points": 14001,
+  "relative_l2": 2.6954920925051813e-11,
+  "state_kind": "fitted",
+  "state_sha256": "054aaf718882e83153e8fb09a0f81e0ab13fdefc3364007e2610c546945c3439",
+  "source_sha256": {
+    "model.py": "08ba732535fa4f6a3939683770846f5dc1a62bc3233c5f8ff53e2593d5736d3b"
+  },
+  "reference_sha256": "31221c75c03d2f730b851161f698ae8c892adfa51acdb2eaf4ab117a5b773737",
+  "reference_provenance": {
+    "qualified": true,
+    "case": "fujita_profile",
+    "branch_id": "observed-positive-branch-1",
+    "branch_completeness": "not claimed; two observed branches only",
+    "file": "observed-positive-branch-1.npz",
+    "sha256": "31221c75c03d2f730b851161f698ae8c892adfa51acdb2eaf4ab117a5b773737",
+    "metric": "resolved_trapezoid",
+    "generator_provenance": {
+      "file": "fujita_stationary_932c67757025.py",
+      "sha256": "932c67757025f9643174daca99e8a4454ae15e9a7f595cc5ff45dd65e496b7cc",
+      "numpy": "2.4.3",
+      "scipy": "1.17.1",
+      "source_anchor": "f5bd9987fada497e789969dde5657d070e7a2eee",
+      "equation": "Phi\"+4 Phi'/eta+Phi^3-Phi/2-eta Phi'/2=0",
+      "initial_guesses": "exploratory numerical basins, outside all fresh candidate inputs"
+    },
+    "refinement_evidence": {
+      "collocation": [
+        {
+          "R": 20.0,
+          "tolerance": 1e-06,
+          "nodes": 1771,
+          "max_rms_residual": 6.307932890170526e-07,
+          "a": 6.634718564902101,
+          "c": 1.0568955315693074,
+          "overlap_relative_l2_change": null
+        },
+        {
+          "R": 40.0,
+          "tolerance": 1e-07,
+          "nodes": 1237,
+          "max_rms_residual": 9.980027274202781e-08,
+          "a": 6.634718565261372,
+          "c": 1.0568955317065964,
+          "overlap_relative_l2_change": 1.09806295719806e-10
+        },
+        {
+          "R": 80.0,
+          "tolerance": 1e-08,
+          "nodes": 1871,
+          "max_rms_residual": 9.971441125891832e-09,
+          "a": 6.634718559529497,
+          "c": 1.0568955310756614,
+          "overlap_relative_l2_change": 5.801630020748626e-10
+        },
+        {
+          "R": 160.0,
+          "tolerance": 1e-08,
+          "nodes": 1871,
+          "max_rms_residual": 9.971441006721627e-09,
+          "a": 6.634718559522267,
+          "c": 1.056895531033834,
+          "overlap_relative_l2_change": 1.833794074620112e-11
+        },
+        {
+          "R": 350.0,
+          "tolerance": 1e-08,
+          "nodes": 1871,
+          "max_rms_residual": 9.971441008467021e-09,
+          "a": 6.634718559506312,
+          "c": 1.0568955309415737,
+          "overlap_relative_l2_change": 4.248338988696676e-11
+        },
+        {
+          "R": 700.0,
+          "tolerance": 1e-10,
+          "nodes": 6222,
+          "max_rms_residual": 9.997058907206776e-11,
+          "a": 6.634718559550474,
+          "c": 1.0568955310438906,
+          "overlap_relative_l2_change": 5.668061275068041e-11
+        }
+      ],
+      "independent_shooting": [
+        {
+          "R": 40.0,
+          "method": "DOP853 outward; Radau inward; root matching at eta=3",
+          "rtol": 2e-11,
+          "atol": 2e-13,
+          "origin_epsilon": 1e-06,
+          "matching_error": 1.4432899320127035e-15,
+          "a": 6.634718559518272,
+          "c": 1.0568955310493364,
+          "relative_l2_to_collocation": 2.5233145465896358e-11,
+          "max_absolute_to_collocation": 8.638956217055238e-11
+        },
+        {
+          "R": 80.0,
+          "method": "DOP853 outward; Radau inward; root matching at eta=3",
+          "rtol": 2e-11,
+          "atol": 2e-13,
+          "origin_epsilon": 1e-06,
+          "matching_error": 2.7200464103316335e-15,
+          "a": 6.634718559518951,
+          "c": 1.0568955310494328,
+          "relative_l2_to_collocation": 2.5227017856469262e-11,
+          "max_absolute_to_collocation": 8.640954618499563e-11
+        }
+      ],
+      "checks": {
+        "positive_on_dense_grid": true,
+        "nonconstant": true,
+        "nonincreasing_on_dense_grid": true,
+        "collocation_rms_below_2e_10": true,
+        "domain_and_tolerance_change_below_1e_7": true,
+        "independent_methods_l2_below_1e_7": true,
+        "independent_origins_relative_change_below_1e_7": true
+      }
+    },
+    "grid": {
+      "eta_min": 0,
+      "eta_max": 350,
+      "core_step": 0.001,
+      "tail_log_points": 4001,
+      "points": 14001
+    },
+    "boundary": {
+      "origin": "regular radial expansion and derivative zero",
+      "far_field": "algebraic expansion through eta^-9; domain through 700"
+    }
+  },
+  "torch_version": "2.13.0+cpu",
+  "max_absolute_error": 2.656800127120995e-11,
+  "reference_max_absolute": 6.634718559550474,
+  "prediction_max_absolute": 6.634718559554735,
+  "absolute_l2": 1.1457076672257136e-10,
+  "denominator_energy": 18.06639555531023,
+  "max_error_coordinates": [
+    52.61139007804208
+  ],
+  "origin_prediction": 6.634718559554735,
+  "origin_reference": 6.634718559550474,
+  "eta_max": 350.0,
+  "tail_eta_phi_prediction": 1.0569031490688092,
+  "tail_eta_phi_reference": 1.0569031482006055,
+  "independent_equation_checks": {
+    "entry_id": "solver_33c01b8f547c",
+    "state_sha256": "054aaf718882e83153e8fb09a0f81e0ab13fdefc3364007e2610c546945c3439",
+    "points": 11001,
+    "residual_max_absolute": 4.9437121063533596e-12,
+    "origin_compatibility_absolute": 1.8207657603852567e-14,
+    "origin_derivative_absolute": 0.0,
+    "minimum_phi": 0.003019723283053741,
+    "eta350_robin_absolute": 4.35304203611972e-08,
+    "batch_max_absolute_difference": 0.0,
+    "mode_max_absolute_difference": 0.0,
+    "qualification": "Independent dense Torch AD equation check of frozen nominee; double precision, finite domain, no global certificate or high-precision audit."
+  }
+}

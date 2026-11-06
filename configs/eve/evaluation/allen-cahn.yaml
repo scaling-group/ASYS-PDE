@@ -1,0 +1,13 @@
+# @package _global_
+evaluation:
+  steps:
+  - configs/eve/evaluation/allen-cahn/evaluate.sh
+  failure_score:
+    score: -1.0e9
+    physics: -1.0e9
+    ic: -1.0e9
+    ic_tangent: -1.0e9
+    bc: -1.0e9
+    summary: Allen-Cahn candidate failure
+  seed_solver_score: null
+  seed_solver_skip_evaluation: false

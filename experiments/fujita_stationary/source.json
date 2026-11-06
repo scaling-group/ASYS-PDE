@@ -1,0 +1,10 @@
+{
+  "candidate": "solver_33c01b8f547c",
+  "source_commit": "338ea467189200748ce768e5d9af2b3fc6788786",
+  "source_path": "output/results-overview-sample/fujita-source.txt",
+  "model_sha256": "08ba732535fa4f6a3939683770846f5dc1a62bc3233c5f8ff53e2593d5736d3b",
+  "coefficients": "17-significant-digit table in current manuscript",
+  "original_state_sha256": "054aaf718882e83153e8fb09a0f81e0ab13fdefc3364007e2610c546945c3439",
+  "original_state_container_included": true,
+  "recovery_archive_sha256": "1b14dbf5850fc70ae9d2b7a7b5349fc880a8c79a205b50ab247046237240f02c"
+}

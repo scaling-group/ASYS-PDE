@@ -1,0 +1,17 @@
+# @package _global_
+application:
+  name: asys-fujita-stationary
+  path: configs/eve/application/asys-fujita-stationary
+  editable:
+    files:
+    - model.py
+    - loss.py
+    - optim.py
+    - config.yaml
+    folders: []
+  boundary_failure_score:
+    physics: -1.0e9
+    ic: -1.0e9
+    ic_tangent: -1.0e9
+    bc: -1.0e9
+    summary: Candidate boundary violation

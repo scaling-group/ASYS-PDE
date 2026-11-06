@@ -1,0 +1,17 @@
+defaults:
+  - runtime: default
+  - loop: phase2_self_optimize
+  - driver: asys
+  - logger: many_loggers
+  - application: asys-hj-inverse
+  - optimizer: asys-hj-inverse
+  - evaluation: asys-hj-inverse
+  - _self_
+
+label: asys-hj-inverse
+loop:
+  max_iterations: 40
+  n_workers_phase2: 2
+logger:
+  wandb:
+    enabled: false

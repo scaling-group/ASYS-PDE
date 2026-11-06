@@ -1,0 +1,49 @@
+{
+  "candidate_id": "solver_cff4079e5ca7",
+  "workspace": "20261027_025950_step_37_f42cb18885ee",
+  "recovery_archive_sha256": "1b14dbf5850fc70ae9d2b7a7b5349fc880a8c79a205b50ab247046237240f02c",
+  "original_files": {
+    "selected/model.py": {
+      "source": "run/solver_workspaces/20261027_025950_step_37_f42cb18885ee/solver/problems/blowup/graveleau_pme_2d/model.py",
+      "sha256": "0ffa06f8783842e805db0eaaeb3e90ddfa64beeee6329306d3391fede1f51bfa"
+    },
+    "selected/loss.py": {
+      "source": "run/solver_workspaces/20261027_025950_step_37_f42cb18885ee/solver/problems/blowup/graveleau_pme_2d/loss.py",
+      "sha256": "55c77d140377bae834f280da1de94cf0fe1f4dd0d5eabac520322ae592d2b517"
+    },
+    "selected/optim.py": {
+      "source": "run/solver_workspaces/20261027_025950_step_37_f42cb18885ee/solver/problems/blowup/graveleau_pme_2d/optim.py",
+      "sha256": "3431eb7cc6962f2da8a733b1af6f62eef676d7a103d6d0d524aac00a5668a00f"
+    },
+    "selected/config.yaml": {
+      "source": "run/solver_workspaces/20261027_025950_step_37_f42cb18885ee/solver/problems/blowup/graveleau_pme_2d/config.yaml",
+      "sha256": "9ff15c5d19027b65292b2beb0345878ba2a265e8126871f9b723f61592acb321"
+    },
+    "selected/problem.py": {
+      "source": "run/solver_workspaces/20261027_025950_step_37_f42cb18885ee/solver/problems/blowup/graveleau_pme_2d/problem.py",
+      "sha256": "a548ead104be578c9c35aa9f970a6027e9c3a880ae39e2be83901f9cd7afb6ea"
+    },
+    "selected/state_dict.pt": {
+      "source": "run/evaluation_workspaces/20261027_025950_step_37_f42cb18885ee/logs/evaluate/eval_artifacts/state_dict.pt",
+      "sha256": "af9293d809ccc60328e51f8b5e09a5a72afa476a2ef9e7b6e0b00dca2746624d"
+    }
+  },
+  "adapted_readouts": {
+    "diagnostics.py": {
+      "source": "analyze_saved_candidates.py",
+      "source_sha256": "e2785871017c8d2f22f28ab7fa29b56369f01543a13838db5b0689ab2df492ad",
+      "adaptation": "same measure calculations; portable model argument and artifact metadata removed"
+    },
+    "contraction.py": {
+      "source": "contraction_readout.py",
+      "source_sha256": "17bbf08a3bf540c6a0408ff98ddc0eeaa8034463612fd489d62fc739c0aaba45",
+      "adaptation": "same quadrature; selected model front only; portable imports"
+    },
+    "checks.py": {
+      "source": "run/solver_workspaces/20261027_025950_step_37_f42cb18885ee/logs/optimize/analytic_checks.py",
+      "source_sha256": "0cc1fa670aceb5bfb4ac33fc74996d7302344dc887c399ba26b46faea911f1fb",
+      "adaptation": "portable imports and main guard; same mathematical checks"
+    }
+  },
+  "expected.json": "Selected solver_cff4079e5ca7 entry extracted from iteration37-saved-readout.json; values unchanged"
+}

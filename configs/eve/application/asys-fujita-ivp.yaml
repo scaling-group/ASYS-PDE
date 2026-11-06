@@ -1,0 +1,18 @@
+# @package _global_
+application:
+  name: asys-fujita-ivp
+  path: configs/eve/application/asys-fujita-ivp
+  editable:
+    files:
+    - problems/blowup/fujita_radial_n5_p3/model.py
+    - problems/blowup/fujita_radial_n5_p3/loss.py
+    - problems/blowup/fujita_radial_n5_p3/optim.py
+    - problems/blowup/fujita_radial_n5_p3/config.yaml
+    folders: []
+  boundary_failure_score:
+    score: -1000000000.0
+    physics: -1000000000.0
+    ic: -1000000000.0
+    ic_tangent: -1000000000.0
+    bc: -1000000000.0
+    summary: boundary check failed

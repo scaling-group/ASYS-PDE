@@ -1,0 +1,12 @@
+# @package _global_
+# OpenCode non-interactive driver for full runs.
+# All behavior-relevant fields declared explicitly — no reliance on defaults.
+
+driver:
+  driver: opencode
+  executable: opencode
+  model: null
+  variant: null
+  rollout_max_turns: 10000
+  budget_prompt: false
+  timeout_seconds: 7200

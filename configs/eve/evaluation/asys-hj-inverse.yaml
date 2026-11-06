@@ -1,0 +1,9 @@
+# @package _global_
+evaluation:
+  steps:
+    - configs/eve/evaluation/asys-hj-inverse/evaluation.sh
+  failure_score:
+    score: -1000000000000.0
+    summary: HJ evaluation incomplete
+  seed_solver_score: null
+  seed_solver_skip_evaluation: false

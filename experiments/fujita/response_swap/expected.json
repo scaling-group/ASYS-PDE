@@ -1,0 +1,102 @@
+{
+  "rows": [
+    {
+      "state": "initial",
+      "response": "L",
+      "trajectory_relative_l2_percent": 0.07975426259126861,
+      "final_relative_l2_percent": 0.6764272748347326,
+      "original_training_objective": 1.0346858552358284e-07,
+      "training_uniform_normalized_pde": 8.699396520211094e-08,
+      "training_core_normalized_pde": 8.237310160735948e-08,
+      "independent_objective": 6.830900111597339e-08,
+      "independent_uniform_normalized_pde": 5.17695623927383e-08,
+      "independent_core_normalized_pde": 8.269719361617546e-08,
+      "field_min": 2.6375387273071957e-16,
+      "field_max": 158.11430610102528
+    },
+    {
+      "state": "initial",
+      "response": "U",
+      "trajectory_relative_l2_percent": 0.2969110733826075,
+      "final_relative_l2_percent": 1.0530201941822852,
+      "original_training_objective": 0.02633982253918338,
+      "training_uniform_normalized_pde": 0.026339807520677175,
+      "training_core_normalized_pde": 7.509253103610829e-08,
+      "independent_objective": 0.022541900744879807,
+      "independent_uniform_normalized_pde": 0.02254188588287947,
+      "independent_core_normalized_pde": 7.431000169017974e-08,
+      "field_min": 2.642780280205614e-16,
+      "field_max": 158.11430610102528
+    },
+    {
+      "state": "L-fit",
+      "response": "L",
+      "trajectory_relative_l2_percent": 0.08792777829713455,
+      "final_relative_l2_percent": 0.7020595982682245,
+      "original_training_objective": 4.294316274512807e-08,
+      "training_uniform_normalized_pde": 4.1537754275804925e-08,
+      "training_core_normalized_pde": 7.027042346615731e-09,
+      "independent_objective": 3.1781673032062174e-08,
+      "independent_uniform_normalized_pde": 3.0403323788241997e-08,
+      "independent_core_normalized_pde": 6.891746219100885e-09,
+      "field_min": 2.6374760685966675e-16,
+      "field_max": 158.0646102827331
+    },
+    {
+      "state": "L-fit",
+      "response": "U",
+      "trajectory_relative_l2_percent": 0.29169889645712194,
+      "final_relative_l2_percent": 1.0560885139785436,
+      "original_training_objective": 0.026322506870075913,
+      "training_uniform_normalized_pde": 0.02632250483265553,
+      "training_core_normalized_pde": 1.0187101915586048e-08,
+      "independent_objective": 0.022530303658065225,
+      "independent_uniform_normalized_pde": 0.022530301797621954,
+      "independent_core_normalized_pde": 9.30221635889823e-09,
+      "field_min": 2.642717664250288e-16,
+      "field_max": 158.0646102827331
+    },
+    {
+      "state": "U-fit",
+      "response": "L",
+      "trajectory_relative_l2_percent": 3.990724738786078,
+      "final_relative_l2_percent": 25.43343700534772,
+      "original_training_objective": 1.2869244763149577e-06,
+      "training_uniform_normalized_pde": 1.2628771733212706e-06,
+      "training_core_normalized_pde": 1.202365149684356e-07,
+      "independent_objective": 1.2153612788907386e-06,
+      "independent_uniform_normalized_pde": 1.1926889449494695e-06,
+      "independent_core_normalized_pde": 1.1336166970634547e-07,
+      "field_min": 2.637563232831356e-16,
+      "field_max": 101.76661005093824
+    },
+    {
+      "state": "U-fit",
+      "response": "U",
+      "trajectory_relative_l2_percent": 3.990714579042908,
+      "final_relative_l2_percent": 25.433416889185086,
+      "original_training_objective": 1.3397360011065715e-06,
+      "training_uniform_normalized_pde": 1.315689799521699e-06,
+      "training_core_normalized_pde": 1.2023100792436302e-07,
+      "independent_objective": 1.1852002763673875e-06,
+      "independent_uniform_normalized_pde": 1.1625289505529165e-06,
+      "independent_core_normalized_pde": 1.1335662907235429e-07,
+      "field_min": 2.637564841769461e-16,
+      "field_max": 101.76661005093824
+    }
+  ],
+  "independent_sampling": {
+    "uniform_count": 8192,
+    "core_count": 8704,
+    "core_interior": 8192,
+    "core_origin": 512,
+    "uniform_seed": 2026110596,
+    "core_seed": 2026110597,
+    "core_weight": 0.2,
+    "chunk_size": 256
+  },
+  "independent_provenance": {
+    "commit": "b4853df536511c4de65c4167e0a8c49cb54ae083",
+    "path": "docs/asys/fujita-and-one-shot-controls-20261104/diagnostic/neural-heldout/RESULTS.json"
+  }
+}

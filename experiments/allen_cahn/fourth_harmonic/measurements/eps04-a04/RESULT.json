@@ -1,0 +1,31 @@
+{
+  "case": "eps04-a04",
+  "a": 0.04,
+  "eps": 0.04,
+  "n": 512,
+  "dt": 0.00390625,
+  "R0": 0.28,
+  "equation": "u_t=eps^2 Laplacian(u)+u-u^3",
+  "domain": "[-1,1)^2 periodic",
+  "initial": "tanh(actual signed Euclidean distance/(sqrt(2)*eps)), positive inside",
+  "status": "complete",
+  "distance": {
+    "method": "global nearest sampled contour point, then continuous Euclidean normal projection by Newton; exact parametric curve",
+    "seed_samples": 16384,
+    "projection_stationarity_max": 5.637851296924623e-17
+  },
+  "initial_array_sha256": "002eed2e0b29be0dc90dc0b9b9cbe99e9d9811135b06c6dd3be4bf56af906de6",
+  "steps": 1920,
+  "saved_times": 61,
+  "extraction_checks": [],
+  "arrays": {
+    "contours.npz": {
+      "sha256": "b79b4fd690936345b96a4738f1ac7f4e88ffadb9bf2e4f887e03d6e5c1732611",
+      "bytes": 279846
+    },
+    "metrics.csv": {
+      "sha256": "3f0a7e0165a74712b4d21ee1c58e0e30a92c8191540c02f14b4236c478c5e136",
+      "bytes": 24598
+    }
+  }
+}

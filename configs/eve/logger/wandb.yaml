@@ -1,0 +1,9 @@
+# @package _group_
+# W&B logger. Disabled by default; enable explicitly for a run.
+
+_target_: scaling_evolve.algorithms.eve.logger.WandbEveLogger
+enabled: false
+project: eve
+entity: null
+excluded_score_fields:
+  - info

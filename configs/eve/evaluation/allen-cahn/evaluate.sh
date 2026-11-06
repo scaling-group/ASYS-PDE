@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export OMP_NUM_THREADS="${ASYS_NUM_THREADS:-1}"
+export MKL_NUM_THREADS="$OMP_NUM_THREADS" OPENBLAS_NUM_THREADS="$OMP_NUM_THREADS"
+export PYTHONDONTWRITEBYTECODE=1
+export ASYS_NUM_THREADS="${ASYS_NUM_THREADS:-1}" ASYS_WALL_TIME="${ASYS_WALL_TIME:-300}"
+exec "${ASYS_PYTHON:-python3}" "${EVE_SOLVER_ROOT:?Native candidate root}/evaluate.py"

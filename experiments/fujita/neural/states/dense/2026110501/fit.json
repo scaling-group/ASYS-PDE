@@ -1,0 +1,45 @@
+{
+  "seed": 2026110501,
+  "parameters": 12739,
+  "stop": "training_time",
+  "failure": null,
+  "eligible": true,
+  "selected_training_loss": 0.00013211546218983255,
+  "selected_outer_step": 13691,
+  "selected_first_measured_elapsed": 3584.685000280995,
+  "selected_completed_elapsed": 3584.6851763830055,
+  "outer_attempts": 13692,
+  "accepted_steps": 13690,
+  "attempted_closures": 16541,
+  "completed_closures": 16541,
+  "post_step_evaluations": 13690,
+  "diagnostics": {
+    "uniform": {
+      "count": 8192,
+      "mse": 0.0003742777659339167
+    },
+    "core": {
+      "count": 8704,
+      "mse": 3.41819465848976e-06
+    },
+    "interior_initial_tangent": {
+      "mse": 0.5366257092437399,
+      "normalized_mse": 0.0015327894794730115,
+      "wall_corner_excluded": true
+    }
+  },
+  "checkpoint600_exists": true,
+  "reference_access": false,
+  "wall_seconds": 3585.432098107005,
+  "cpu_seconds": 3564.44103536,
+  "budget_seconds": 3600.0,
+  "settings": {
+    "total": 3600.0,
+    "train_end": 3585.0,
+    "adam_end": 2400.0,
+    "checkpoint": 600.0,
+    "max_outer": 100000,
+    "max_closures": 300000,
+    "unchanged_stop": 50
+  }
+}

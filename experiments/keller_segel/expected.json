@@ -1,0 +1,68 @@
+{
+  "units": "Relative errors are fractions; density norm uses r dr dt.",
+  "reference": {
+    "cells": 192000,
+    "times": 77,
+    "readout_nodes": 48001,
+    "sha256": "a98cd649523ba86afc0c049540bbd90979d44649a52ac6afb84d4d17eb7af541"
+  },
+  "rows": [
+    {
+      "candidate": "gaussian",
+      "solver": "solver_cfc3a9238a37",
+      "status": "available",
+      "relative_space_time_radial_L2": 0.0004095440422295431,
+      "max_relative_radial_L2": 0.0009375831909108619,
+      "time_of_max_relative_radial_L2": 0.86652,
+      "max_absolute_relative_center_error": 0.001505234000582778,
+      "max_relative_cumulative_mass_difference": 0.0003310224025949014
+    },
+    {
+      "candidate": "gaussian_continued",
+      "solver": "solver_86044623685f",
+      "status": "available",
+      "relative_space_time_radial_L2": 0.00040954404222953646,
+      "max_relative_radial_L2": 0.0009375831909108635,
+      "time_of_max_relative_radial_L2": 0.86652,
+      "max_absolute_relative_center_error": 0.001505234000582778,
+      "max_relative_cumulative_mass_difference": 0.0003310224025949014
+    },
+    {
+      "candidate": "reweighted",
+      "solver": "solver_2d869f3858ea",
+      "status": "available",
+      "relative_space_time_radial_L2": 6.33999870424836e-05,
+      "max_relative_radial_L2": 0.0001620994557503595,
+      "time_of_max_relative_radial_L2": 0.86652,
+      "max_absolute_relative_center_error": 0.0002697595367572303,
+      "max_relative_cumulative_mass_difference": 0.00010012063689850648
+    },
+    {
+      "candidate": "laguerre4",
+      "solver": "solver_e4da6f5b83fa",
+      "status": "available",
+      "relative_space_time_radial_L2": 5.7886120479533306e-05,
+      "max_relative_radial_L2": 8.487721020331621e-05,
+      "time_of_max_relative_radial_L2": 0.582193125,
+      "max_absolute_relative_center_error": 0.0001333069557571953,
+      "max_relative_cumulative_mass_difference": 2.8224391945853638e-05
+    },
+    {
+      "candidate": "laguerre48",
+      "solver": "solver_27f90b2ff9f5",
+      "status": "available",
+      "relative_space_time_radial_L2": 9.132520395555284e-05,
+      "max_relative_radial_L2": 0.00010240192101472417,
+      "time_of_max_relative_radial_L2": 0.825901875,
+      "max_absolute_relative_center_error": 0.00015735659052329432,
+      "max_relative_cumulative_mass_difference": 3.257184941748834e-05
+    }
+  ],
+  "gaussian_continuation": {
+    "additional_seconds": 300,
+    "steps": 296,
+    "closures": 1761,
+    "maximum_coefficient_change": 7.901665433074356e-16,
+    "initial_state_matches_gaussian": true
+  }
+}

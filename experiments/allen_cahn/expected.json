@@ -1,0 +1,101 @@
+{
+  "original_floor14": [
+    {
+      "candidate": "solver_51e8e238b607",
+      "reference": "teacher384",
+      "n": 384,
+      "time_count": 262,
+      "weighting": "trapezoidal_time",
+      "relative_l2_percent": 0.7981393899473711,
+      "weighted_squared_error": 0.0019369147986572131,
+      "weighted_reference_energy": 30.405561493548717,
+      "weight_sum": 8.0
+    },
+    {
+      "candidate": "solver_ac866023528b",
+      "reference": "teacher384",
+      "n": 384,
+      "time_count": 262,
+      "weighting": "trapezoidal_time",
+      "relative_l2_percent": 0.9162080788879318,
+      "weighted_squared_error": 0.0025523560736929298,
+      "weighted_reference_energy": 30.405561493548717,
+      "weight_sum": 8.0
+    }
+  ],
+  "neural_floor12": [
+    {
+      "id": "2026110401-nn-lbfgs",
+      "arm": "nn-lbfgs",
+      "base_seed": 2026110401,
+      "fit_eligible": true,
+      "fit_stop": "fit_time_including_save_reserve",
+      "reference": "target_floor12",
+      "weighted_E": 4.5563192856073244e-05,
+      "weighted_R": 30.405561493563187,
+      "field_error_percent": 0.1224138511174349,
+      "band_error_percent": 0.6568955472866271,
+      "weighted_band_E": 3.9514821798798935e-05,
+      "weighted_band_R": 0.9157298933099388,
+      "interface_time_rms": 0.0004930823336107959,
+      "interface_max": 0.0029173250475984795,
+      "interface_time_coverage": 8.0,
+      "empty_contour_times": 0,
+      "Linf": 0.025724289061825445
+    },
+    {
+      "id": "2026110411-nn-lbfgs",
+      "arm": "nn-lbfgs",
+      "base_seed": 2026110411,
+      "fit_eligible": true,
+      "fit_stop": "fit_time_including_save_reserve",
+      "reference": "target_floor12",
+      "weighted_E": 4.0061400626186497e-05,
+      "weighted_R": 30.405561493563187,
+      "field_error_percent": 0.11478537320166472,
+      "band_error_percent": 0.6130477528279846,
+      "weighted_band_E": 3.441565197438358e-05,
+      "weighted_band_R": 0.9157298933099388,
+      "interface_time_rms": 0.0004486907948729755,
+      "interface_max": 0.0027793329418927936,
+      "interface_time_coverage": 8.0,
+      "empty_contour_times": 0,
+      "Linf": 0.021884525865318638
+    },
+    {
+      "id": "2026110421-nn-lbfgs",
+      "arm": "nn-lbfgs",
+      "base_seed": 2026110421,
+      "fit_eligible": true,
+      "fit_stop": "fit_time_including_save_reserve",
+      "reference": "target_floor12",
+      "weighted_E": 5.822477818077035e-05,
+      "weighted_R": 30.405561493563187,
+      "field_error_percent": 0.138381300387899,
+      "band_error_percent": 0.7562220327921052,
+      "weighted_band_E": 5.2368006840927405e-05,
+      "weighted_band_R": 0.9157298933099388,
+      "interface_time_rms": 0.0005525993011983225,
+      "interface_max": 0.003100576496312745,
+      "interface_time_coverage": 8.0,
+      "empty_contour_times": 0,
+      "Linf": 0.025226945778347387
+    }
+  ],
+  "formula_common_reference_replay": {
+    "candidate": "formula14",
+    "initial_regularizer": 1e-12,
+    "weighted_E": 0.001936914801407414,
+    "weighted_R": 30.405561493563187,
+    "field_error_percent": 0.7981393905138152,
+    "band_error_percent": 4.475421092984593,
+    "weighted_band_E": 0.0018341514793624434,
+    "weighted_band_R": 0.9157298933099388,
+    "interface_time_rms": 0.0023561850378154424,
+    "interface_max": 0.006635143723243988,
+    "interface_time_coverage": 8.0,
+    "empty_contour_times": 0,
+    "Linf": 0.10784042868210497,
+    "source": "Frozen formula14 replay against the original target_floor12 bank; same readout as neural_floor12."
+  }
+}

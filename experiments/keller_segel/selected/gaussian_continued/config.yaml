@@ -1,0 +1,29 @@
+# Warm continuation of the disclosed acff second-jet fit. Same Gaussian
+# kernels, degree, quadrature, raw physics objective and Gauss--Newton recipe.
+# The sole field change is a bounded additive curve AFTER the old saturation.
+# All corrections start at zero; inherited fitted coefficients are buffers.
+seed: 0
+correction_bound: 6.0
+n_core: 12
+n_first: 6
+# Two positive core groups match the PDE's first and second initial jets.
+# 13 Gaussians; 312 trainable scalars; 325 persistent fixed buffer scalars.
+time_degree: 12
+# The helper supplies 144 x 64 center points. The loss uses four Gaussian
+# nodes per radial cell: 576 x 64 continuous PDE probes, including t=0.
+n_x: 144
+n_time: 64
+n_collocation: 9216
+n_ic: 256
+n_bc: 128
+boundary_weight: 1.0
+coefficient_regularization: 1.0e-10
+optimizer: DampedGaussNewton
+# One exact factored normal matrix per step; all trial objective evaluations
+# go through the fixed evaluator's closure and deadline checks.
+gn_initial_damping: 0.01
+gn_max_trials: 5
+gn_max_coefficient_step: 2.0
+gn_max_curve_step: 2.0
+max_steps: 100000
+wall_time: 300.0

@@ -1,0 +1,277 @@
+{
+  "candidate_id": "solver_cff4079e5ca7",
+  "workspace": "20261027_025950_step_37_f42cb18885ee",
+  "model_sha256": "0ffa06f8783842e805db0eaaeb3e90ddfa64beeee6329306d3391fede1f51bfa",
+  "state_sha256": "af9293d809ccc60328e51f8b5e09a5a72afa476a2ef9e7b6e0b00dca2746624d",
+  "field_readout": {
+    "workspace": "20261027_025950_step_37_f42cb18885ee",
+    "source": "run/solver_workspaces/20261027_025950_step_37_f42cb18885ee/solver/problems/blowup/graveleau_pme_2d/model.py",
+    "saved_state": "run/evaluation_workspaces/20261027_025950_step_37_f42cb18885ee/logs/evaluate/eval_artifacts/state_dict.pt",
+    "n_parameters": 24,
+    "raw_fitted_parameters": {
+      "focus_clock": -0.7611627443026874,
+      "exponent": 5.471793339139809,
+      "onset": -0.3478966469998942,
+      "clock_shape": 0.5956884461594105,
+      "clock_skew": 8.420183829608376,
+      "relaxation": 15.994644439675128,
+      "shell_shape": [
+        [
+          -0.7906142489951489,
+          -8.57679987957723,
+          2.2705465665134117
+        ],
+        [
+          1.5049453764069525,
+          -4.000639482531903,
+          -1.7710646099788103
+        ],
+        [
+          -7.065390530205479,
+          5.492106486159004,
+          0.3506320772761448
+        ]
+      ],
+      "front_shape": [
+        [
+          0.01606646361904116,
+          -0.183140046891925,
+          0.29589861027908937
+        ],
+        [
+          -0.0835552417011517,
+          0.3550265045835307,
+          -0.4896898940598365
+        ],
+        [
+          -0.08126830814436801,
+          -0.020285022456774736,
+          0.05476742433310524
+        ]
+      ]
+    },
+    "official_score": {
+      "score": -0.0021308305662228974,
+      "physics": -0.008324462149106798,
+      "ic": -8.343676534551859e-33,
+      "ic_tangent": -0.00019886011578479194,
+      "bc": -0.0,
+      "diagnostics": {
+        "dimensionless_residual": 5.841328924167673e-16,
+        "pressure_min": 0.0,
+        "hole_pressure_mse": 0.0,
+        "resolved_front_radius_min": 0.04904313725490196,
+        "resolved_front_radius_max": 1.0134274509803922,
+        "density_mass_min": 84.34529842642496,
+        "density_mass_max": 84.40796860587872
+      },
+      "score_components": {
+        "score_n_collocation": 1024,
+        "train_n_collocation": 1024
+      },
+      "summary": "asys-blowup-graveleau-pme-2d: fixed equation and constraint losses"
+    },
+    "ic_max_absolute_error": 4.440892098500626e-16,
+    "true_initial_pde_tangent_max_absolute_error": 4.440892098500626e-15,
+    "sampled_mass_range_fraction_of_initial": 0.0007536711348268213,
+    "rows": [
+      {
+        "t": 0.0,
+        "t_fraction": 0.0,
+        "front_pressure_level_1e-10": 1.0000047434165058,
+        "mass": 84.3870217651059,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 2.827828566774768e-31,
+        "active_residual_mse": 3.3924008977292156e-31,
+        "relative_rms_equation_imbalance": 2.234620099101509e-16,
+        "front_log_offset_residual_mse": 3.033787446639233e-31,
+        "front_relative_rms_equation_imbalance": 2.279975916661174e-16
+      },
+      {
+        "t": 0.006169896650916999,
+        "t_fraction": 0.01,
+        "front_pressure_level_1e-10": 0.9999987781340764,
+        "mass": 84.36848766745555,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.3518093034510058,
+        "active_residual_mse": 0.4220475777348424,
+        "relative_rms_equation_imbalance": 0.2956706822125369,
+        "front_log_offset_residual_mse": 0.39935630956035717,
+        "front_relative_rms_equation_imbalance": 0.3137379983276156
+      },
+      {
+        "t": 0.0154247416272925,
+        "t_fraction": 0.025,
+        "front_pressure_level_1e-10": 0.9992919554836794,
+        "mass": 84.36430726396435,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.11534862697432552,
+        "active_residual_mse": 0.13837783177423477,
+        "relative_rms_equation_imbalance": 0.16115629482897836,
+        "front_log_offset_residual_mse": 0.3282677258963011,
+        "front_relative_rms_equation_imbalance": 0.221791511976064
+      },
+      {
+        "t": 0.030849483254585,
+        "t_fraction": 0.05,
+        "front_pressure_level_1e-10": 0.9913404789237474,
+        "mass": 84.38117308447526,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.07907024139346132,
+        "active_residual_mse": 0.09469019556703813,
+        "relative_rms_equation_imbalance": 0.17698728983274287,
+        "front_log_offset_residual_mse": 0.11432211172743541,
+        "front_relative_rms_equation_imbalance": 0.15249618742816132
+      },
+      {
+        "t": 0.06169896650917,
+        "t_fraction": 0.1,
+        "front_pressure_level_1e-10": 0.9566044094574946,
+        "mass": 84.37473295510604,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.025605605630702834,
+        "active_residual_mse": 0.03045031104893216,
+        "relative_rms_equation_imbalance": 0.11707260136152237,
+        "front_log_offset_residual_mse": 0.053735633155980476,
+        "front_relative_rms_equation_imbalance": 0.0792401033420361
+      },
+      {
+        "t": 0.12339793301834,
+        "t_fraction": 0.2,
+        "front_pressure_level_1e-10": 0.860335937530978,
+        "mass": 84.38880911973273,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.012675348450691987,
+        "active_residual_mse": 0.014798740156961754,
+        "relative_rms_equation_imbalance": 0.09509964102532946,
+        "front_log_offset_residual_mse": 0.029909242230049152,
+        "front_relative_rms_equation_imbalance": 0.045706198158653996
+      },
+      {
+        "t": 0.21594638278209496,
+        "t_fraction": 0.35,
+        "front_pressure_level_1e-10": 0.6992302172098801,
+        "mass": 84.34255533857662,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.002621326648839895,
+        "active_residual_mse": 0.0029674576262281463,
+        "relative_rms_equation_imbalance": 0.05222762375099301,
+        "front_log_offset_residual_mse": 0.004255524138063377,
+        "front_relative_rms_equation_imbalance": 0.016615071613928372
+      },
+      {
+        "t": 0.30849483254585,
+        "t_fraction": 0.5,
+        "front_pressure_level_1e-10": 0.5387997858032196,
+        "mass": 84.38446914473836,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.002628664234428414,
+        "active_residual_mse": 0.002888006979272825,
+        "relative_rms_equation_imbalance": 0.061719663649128786,
+        "front_log_offset_residual_mse": 0.0019637877725495094,
+        "front_relative_rms_equation_imbalance": 0.01234429899840793
+      },
+      {
+        "t": 0.40104328230960495,
+        "t_fraction": 0.65,
+        "front_pressure_level_1e-10": 0.38636375634205167,
+        "mass": 84.40615540103498,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.0023614989013290917,
+        "active_residual_mse": 0.0025241060244253046,
+        "relative_rms_equation_imbalance": 0.06652257387393856,
+        "front_log_offset_residual_mse": 0.0023759385408889176,
+        "front_relative_rms_equation_imbalance": 0.015177670787431256
+      },
+      {
+        "t": 0.49359173207336,
+        "t_fraction": 0.8,
+        "front_pressure_level_1e-10": 0.24113904926935376,
+        "mass": 84.36976914632312,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.001404072284802832,
+        "active_residual_mse": 0.0014626050389227264,
+        "relative_rms_equation_imbalance": 0.053738750110909464,
+        "front_log_offset_residual_mse": 0.002423927031924505,
+        "front_relative_rms_equation_imbalance": 0.01616931849393518
+      },
+      {
+        "t": 0.55529069858253,
+        "t_fraction": 0.9,
+        "front_pressure_level_1e-10": 0.14498556484641978,
+        "mass": 84.36228568764908,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.0012601916351847563,
+        "active_residual_mse": 0.0012910663302467828,
+        "relative_rms_equation_imbalance": 0.05087010078446017,
+        "front_log_offset_residual_mse": 0.0033041921396974494,
+        "front_relative_rms_equation_imbalance": 0.018106428382629523
+      },
+      {
+        "t": 0.5861401818371149,
+        "t_fraction": 0.95,
+        "front_pressure_level_1e-10": 0.0957715936625392,
+        "mass": 84.37584849462802,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.004045915546014573,
+        "active_residual_mse": 0.00411214333024993,
+        "relative_rms_equation_imbalance": 0.09340012815928472,
+        "front_log_offset_residual_mse": 0.006674579719102192,
+        "front_relative_rms_equation_imbalance": 0.024351980141337222
+      },
+      {
+        "t": 0.604649871789866,
+        "t_fraction": 0.98,
+        "front_pressure_level_1e-10": 0.06548967333324722,
+        "mass": 84.38895100883359,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.014243276713430874,
+        "active_residual_mse": 0.014397865804548526,
+        "relative_rms_equation_imbalance": 0.18107732924974443,
+        "front_log_offset_residual_mse": 0.014026070929974896,
+        "front_relative_rms_equation_imbalance": 0.03363105444865543
+      },
+      {
+        "t": 0.6169896650917,
+        "t_fraction": 1.0,
+        "front_pressure_level_1e-10": 0.04484922097865331,
+        "mass": 84.39869140697392,
+        "pressure_min": 0.0,
+        "uniform_residual_mse": 0.03463981802637641,
+        "active_residual_mse": 0.03489527391152668,
+        "relative_rms_equation_imbalance": 0.2968043285631775,
+        "front_log_offset_residual_mse": 0.024913151939490272,
+        "front_relative_rms_equation_imbalance": 0.04297456690871421
+      }
+    ]
+  },
+  "contraction_quadratures": [
+    {
+      "gauss_nodes_per_subinterval": 32,
+      "exact_initial_pressure_mass": 168.77403635560216,
+      "initial_l1_error": 3.396722277203114e-15,
+      "spacetime_l1_residual": 1.829341165546722,
+      "integrated_outer_flux_mismatch": 0.0,
+      "relative_l1_stability_rhs": 0.010838996358968123,
+      "analytic_final_front": 0.04484922091949406
+    },
+    {
+      "gauss_nodes_per_subinterval": 64,
+      "exact_initial_pressure_mass": 168.77403635560216,
+      "initial_l1_error": 3.396722277203114e-15,
+      "spacetime_l1_residual": 1.8294388447596805,
+      "integrated_outer_flux_mismatch": 0.0,
+      "relative_l1_stability_rhs": 0.010839575116311773,
+      "analytic_final_front": 0.04484922091949406
+    },
+    {
+      "gauss_nodes_per_subinterval": 128,
+      "exact_initial_pressure_mass": 168.77403635560216,
+      "initial_l1_error": 3.396722277203114e-15,
+      "spacetime_l1_residual": 1.829490886878867,
+      "integrated_outer_flux_mismatch": 0.0,
+      "relative_l1_stability_rhs": 0.010839883470133904,
+      "analytic_final_front": 0.04484922091949406
+    }
+  ]
+}

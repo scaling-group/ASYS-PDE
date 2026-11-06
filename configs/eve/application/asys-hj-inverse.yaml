@@ -1,0 +1,14 @@
+# @package _global_
+application:
+  name: asys-hj-inverse
+  path: configs/eve/application/asys-hj-inverse
+  editable:
+    files:
+      - problems/inverse/hj_coefficients/model.py
+      - problems/inverse/hj_coefficients/loss.py
+      - problems/inverse/hj_coefficients/optim.py
+      - problems/inverse/hj_coefficients/config.yaml
+    folders: []
+  boundary_failure_score:
+    score: -1000000000000.0
+    summary: boundary check failed

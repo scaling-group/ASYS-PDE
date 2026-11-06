@@ -1,0 +1,14 @@
+# @package _global_
+evaluation:
+  steps:
+  - name: symbolic-admission
+    prompt: configs/eve/evaluation/asys-fujita-stationary/admission
+  - configs/eve/evaluation/asys-fujita-stationary/evaluate.sh
+  failure_score:
+    physics: -1.0e9
+    ic: -1.0e9
+    ic_tangent: -1.0e9
+    bc: -1.0e9
+    summary: Public evaluation failed
+  seed_solver_score: null
+  seed_solver_skip_evaluation: false

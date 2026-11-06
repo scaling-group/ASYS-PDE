@@ -1,0 +1,13 @@
+# @package _global_
+# Claude Code non-interactive driver for full runs.
+# All behavior-relevant fields declared explicitly — no reliance on defaults.
+
+driver:
+  driver: claude_code
+  executable: claude
+  model: claude-opus-5-5
+  reasoning_effort: xhigh
+  rollout_max_turns: 10000
+  budget_prompt: false
+  web_search: live
+  timeout_seconds: 7200

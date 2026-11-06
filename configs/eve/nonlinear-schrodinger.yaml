@@ -1,0 +1,43 @@
+# Periodic nonlinear Schrödinger representation and transfer across box widths.
+defaults:
+- runtime: default
+- loop: phase2_self_optimize_multi_feature
+- driver: asys
+- logger: many_loggers
+- application: nonlinear-schrodinger
+- optimizer: nonlinear-schrodinger
+- evaluation: nonlinear-schrodinger
+- _self_
+label: nonlinear-schrodinger
+loop:
+  max_iterations: 20
+  n_workers_phase2: 2
+  n_parallel_phase2: 2
+  boundary_repair_attempts: 0
+  sampling:
+    solver_examples: &id001
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.rank_softmax.RankExponentialSumSampler
+      features:
+        ic: null
+        score: null
+        physics:
+          weight: 1.0
+          temperature: 1.0
+        ic_for_selection:
+          weight: 1.0
+          temperature: 1.0
+        ic_tangent:
+          weight: 1.0
+          temperature: 1.0
+        bc:
+          weight: 1.0
+          temperature: 1.0
+      replacement_mode: no_replacement
+    produced_optimizers: *id001
+driver:
+  timeout_seconds: 7200
+  rollout_max_turns: 10000
+  budget_prompt: false
+logger:
+  wandb:
+    enabled: false

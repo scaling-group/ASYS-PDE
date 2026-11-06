@@ -1,0 +1,18 @@
+# @package _global_
+application:
+  name: asys-blowup-graveleau-pme-2d
+  path: configs/eve/application/asys-blowup-graveleau-pme-2d
+  editable:
+    files:
+    - problems/blowup/graveleau_pme_2d/model.py
+    - problems/blowup/graveleau_pme_2d/loss.py
+    - problems/blowup/graveleau_pme_2d/optim.py
+    - problems/blowup/graveleau_pme_2d/config.yaml
+    folders: []
+  boundary_failure_score:
+    score: -1000000000.0
+    physics: -1000000000.0
+    ic: -1000000000.0
+    ic_tangent: -1000000000.0
+    bc: -1000000000.0
+    summary: boundary check failed

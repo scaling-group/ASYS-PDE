@@ -1,0 +1,18 @@
+# @package _global_
+application:
+  name: asys-pinn-allen-cahn-2d
+  path: configs/eve/application/asys-pinn-allen-cahn-2d
+  editable:
+    files:
+    - problems/pinn/allen_cahn_2d/model.py
+    - problems/pinn/allen_cahn_2d/loss.py
+    - problems/pinn/allen_cahn_2d/optim.py
+    - problems/pinn/allen_cahn_2d/config.yaml
+    folders: []
+  boundary_failure_score:
+    score: -1000000000.0
+    physics: -1000000000.0
+    ic: -1000000000.0
+    ic_tangent: -1000000000.0
+    bc: -1000000000.0
+    summary: boundary check failed

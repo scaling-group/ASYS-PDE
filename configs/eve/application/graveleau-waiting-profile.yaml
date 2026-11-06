@@ -1,0 +1,18 @@
+# @package _global_
+application:
+  name: graveleau-waiting-profile
+  path: configs/eve/application/graveleau-waiting-profile
+  editable:
+    files:
+    - model.py
+    - loss.py
+    - optim.py
+    - config.yaml
+    folders: []
+  boundary_failure_score:
+    score: -1.0e9
+    physics: -1.0e9
+    ic: -1.0e9
+    ic_tangent: -1.0e9
+    bc: -1.0e9
+    summary: Graveleau candidate boundary failure

@@ -1,0 +1,25 @@
+# Run: uv run python -m scaling_evolve.algorithms.eve.runner --config-name=asys-pinn-allen-cahn-2d
+
+defaults:
+  - runtime: default
+  - loop: phase2_self_optimize_multi_feature
+  - driver: asys
+  - logger: many_loggers
+  - application: asys-pinn-allen-cahn-2d
+  - optimizer: asys-pinn-allen-cahn-2d
+  - evaluation: asys-pinn-allen-cahn-2d
+  - _self_
+
+label: asys-pinn-allen-cahn-2d
+
+loop:
+  max_iterations: 40
+  n_workers_phase2: 2
+  n_parallel_phase2: 1
+
+driver:
+  rollout_max_turns: 50
+
+logger:
+  wandb:
+    project: asys-pinn

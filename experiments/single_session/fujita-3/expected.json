@@ -1,0 +1,9 @@
+{
+  "name": "fujita-3",
+  "task": "fujita",
+  "state_sha256": "246833074217f277508eadb49c8248d798079a98bba3d895e10d3e2de1926bcb",
+  "trajectory_relative_l2_percent": 2.0918076488584703,
+  "final_relative_l2_percent": 5.507920391876333,
+  "fit_wall_seconds": 310.89751843200065,
+  "session_wall_seconds": 652.4948730679753
+}

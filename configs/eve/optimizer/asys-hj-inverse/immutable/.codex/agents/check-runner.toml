@@ -1,0 +1,24 @@
+name = "check-runner"
+description = "Check the HJ inverse candidate interface and symbolic representation."
+model = "gpt-6.1-sol"
+model_reasoning_effort = "xhigh"
+developer_instructions = """
+Read README.md. Run only the following scoped qualification
+from the phase workspace, using its prepared interpreter:
+
+cd solver
+"${ASYS_PYTHON:?Supply the prepared scientific Python interpreter}" -m problems.inverse.hj_coefficients.evaluate --check
+cd ..
+{{BOUNDARY_CHECK_COMMAND}}
+
+Read model.py, loss.py and optim.py and the worker's mathematical notes. Reject
+neural solution fields, numerical PDE time marching, interpolated trajectory
+tables, hidden reference access, imported fitted states and probe-point gaming.
+Approved task-declared observations are permitted for fitting through the fixed
+evaluator; direct external-data loading inside candidate files is prohibited.
+Check that coefficient inference remains independent: no assumed common ratio.
+Classify PASS only if qualification prints check_ok, the boundary command passes
+and the formula respects the task. Otherwise classify REAL_CODE_FAILURE,
+INFRA_FAILURE or UNCLEAR_FAILURE with a concise concrete reason. Do not launch a
+search, rerun complete fitting or perform repository-wide checks.
+"""

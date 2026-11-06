@@ -1,0 +1,758 @@
+{
+  "nx": 1024,
+  "nt": 161,
+  "rows": [
+    {
+      "id": "solver_fbffd848c079-order0-unfitted-constructor",
+      "width": 3.5,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00993925960825112,
+          "correction_relative": 0.3206663471718306,
+          "squared_error": 0.00017702224357963074,
+          "reference_energy": 1.7919247670775074,
+          "reference_correction_energy": 0.0017215556716317355,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 0.004244868967204458,
+          "mass_target_relative": 0.004244897203197201
+        },
+        "8192/512": {
+          "field_relative": 0.009939240188936807,
+          "correction_relative": 0.3206658751470275,
+          "squared_error": 0.00017702155214124963,
+          "reference_energy": 1.791924770040063,
+          "reference_correction_energy": 0.0017215540156310162,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 0.004244868967204458,
+          "mass_target_relative": 0.004244897203197201
+        },
+        "4096/1024": {
+          "field_relative": 0.00993927082894388,
+          "correction_relative": 0.3206666841776368,
+          "squared_error": 0.0001770226432657963,
+          "reference_energy": 1.7919247670346359,
+          "reference_correction_energy": 0.0017215559400555718,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 0.004244868967204458,
+          "mass_target_relative": 0.004244897203197201
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order0-unfitted-constructor",
+      "width": 4.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00492120983882697,
+          "correction_relative": 0.26213161956064995,
+          "squared_error": 3.8016511600449636e-05,
+          "reference_energy": 1.56974278731247,
+          "reference_correction_energy": 0.0005532653116707383,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 0.0014958659836855517,
+          "mass_target_relative": 0.0014958523224802686
+        },
+        "8192/512": {
+          "field_relative": 0.0049211957871535894,
+          "correction_relative": 0.2621310094256414,
+          "squared_error": 3.801629434057027e-05,
+          "reference_energy": 1.569742780669113,
+          "reference_correction_energy": 0.0005532647253689369,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 0.0014958659836855517,
+          "mass_target_relative": 0.0014958523224802686
+        },
+        "4096/1024": {
+          "field_relative": 0.004921213057198729,
+          "correction_relative": 0.26213177799798626,
+          "squared_error": 3.8016561324706676e-05,
+          "reference_energy": 1.5697427873199232,
+          "reference_correction_energy": 0.0005532653665138405,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 0.0014958659836855517,
+          "mass_target_relative": 0.0014958523224802686
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order0-unfitted-constructor",
+      "width": 4.5,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00219652173604602,
+          "correction_relative": 0.19398003570196362,
+          "squared_error": 6.734900296073923e-06,
+          "reference_energy": 1.395918812767236,
+          "reference_correction_energy": 0.00017898519158396928,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 0.0005639283484275505,
+          "mass_target_relative": 0.0005639219910364509
+        },
+        "8192/512": {
+          "field_relative": 0.002196508120260898,
+          "correction_relative": 0.19397897757083385,
+          "squared_error": 6.734816804493767e-06,
+          "reference_energy": 1.3959188137364766,
+          "reference_correction_energy": 0.00017898492539547507,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 0.0005639283484275505,
+          "mass_target_relative": 0.0005639219910364509
+        },
+        "4096/1024": {
+          "field_relative": 0.0021965198079880455,
+          "correction_relative": 0.19397986438357187,
+          "squared_error": 6.734888472254099e-06,
+          "reference_energy": 1.3959188126981448,
+          "reference_correction_energy": 0.00017898519350729287,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 0.0005639283484275505,
+          "mass_target_relative": 0.0005639219910364509
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order0-unfitted-constructor",
+      "width": 5.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.0011322904220982767,
+          "correction_relative": 0.16487000198730523,
+          "squared_error": 1.6109649651775906e-06,
+          "reference_energy": 1.256522958607614,
+          "reference_correction_energy": 5.9265616885827816e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 0.0002238875282235982,
+          "mass_target_relative": 0.00022389041374687468
+        },
+        "8192/512": {
+          "field_relative": 0.0011322824721031735,
+          "correction_relative": 0.16486896014957783,
+          "squared_error": 1.6109423454068558e-06,
+          "reference_energy": 1.256522960045611,
+          "reference_correction_energy": 5.926553374235066e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 0.0002238875282235982,
+          "mass_target_relative": 0.00022389041374687468
+        },
+        "4096/1024": {
+          "field_relative": 0.001132289089920699,
+          "correction_relative": 0.16486981250804744,
+          "squared_error": 1.6109611744654847e-06,
+          "reference_energy": 1.2565229586029814,
+          "reference_correction_energy": 5.9265613653393666e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 0.0002238875282235982,
+          "mass_target_relative": 0.00022389041374687468
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order0-unfitted-constructor",
+      "width": 6.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.0002838906473788157,
+          "correction_relative": 0.1124529425139009,
+          "squared_error": 8.43966973246949e-08,
+          "reference_energy": 1.0471846835944438,
+          "reference_correction_energy": 6.6739631430784215e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 3.718493386629771e-05,
+          "mass_target_relative": 3.718549635267281e-05
+        },
+        "8192/512": {
+          "field_relative": 0.0002838861270114697,
+          "correction_relative": 0.11245127749321969,
+          "squared_error": 8.4394009677568e-08,
+          "reference_energy": 1.0471846837776655,
+          "reference_correction_energy": 6.67394824053635e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 3.718493386629771e-05,
+          "mass_target_relative": 3.718549635267281e-05
+        },
+        "4096/1024": {
+          "field_relative": 0.00028389107680535324,
+          "correction_relative": 0.1124531111238355,
+          "squared_error": 8.43969526511779e-08,
+          "reference_energy": 1.0471846836111705,
+          "reference_correction_energy": 6.673963320252484e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 3.718493386629771e-05,
+          "mass_target_relative": 3.718549635267281e-05
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order0-unfitted-constructor",
+      "width": 7.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 7.4595027195754e-05,
+          "correction_relative": 0.0803365074082601,
+          "squared_error": 4.994601687500563e-09,
+          "reference_energy": 0.8975964087523101,
+          "reference_correction_energy": 7.738823921724278e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 6.548720699775501e-06,
+          "mass_target_relative": 6.548617080699499e-06
+        },
+        "8192/512": {
+          "field_relative": 7.459222145291904e-05,
+          "correction_relative": 0.08033364895729153,
+          "squared_error": 4.994225970638603e-09,
+          "reference_energy": 0.8975964087503063,
+          "reference_correction_energy": 7.738792469580041e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 6.548720699775501e-06,
+          "mass_target_relative": 6.548617080699499e-06
+        },
+        "4096/1024": {
+          "field_relative": 7.45951914743729e-05,
+          "correction_relative": 0.08033668445098553,
+          "squared_error": 4.994623686449845e-09,
+          "reference_energy": 0.8975964087471995,
+          "reference_correction_energy": 7.738823898599703e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 6.548720699775501e-06,
+          "mass_target_relative": 6.548617080699499e-06
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order1-unfitted-constructor",
+      "width": 3.5,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.0004035414175816617,
+          "correction_relative": 0.013019294938330218,
+          "squared_error": 2.9180719950514167e-07,
+          "reference_energy": 1.7919247670775074,
+          "reference_correction_energy": 0.0017215556716317355,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 2.4975425182035468e-06,
+          "mass_target_relative": 2.469186085598841e-06
+        },
+        "8192/512": {
+          "field_relative": 0.0004034920345673164,
+          "correction_relative": 0.013017707985707054,
+          "squared_error": 2.917357850755527e-07,
+          "reference_energy": 1.791924770040063,
+          "reference_correction_energy": 0.0017215540156310162,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 2.4975425182035468e-06,
+          "mass_target_relative": 2.469186085598841e-06
+        },
+        "4096/1024": {
+          "field_relative": 0.00040354156933608304,
+          "correction_relative": 0.013019298819186275,
+          "squared_error": 2.9180741897025953e-07,
+          "reference_energy": 1.7919247670346359,
+          "reference_correction_energy": 0.0017215559400555718,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 2.4975425182035468e-06,
+          "mass_target_relative": 2.469186085598841e-06
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order1-unfitted-constructor",
+      "width": 4.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00028431531135411625,
+          "correction_relative": 0.015144250188874208,
+          "squared_error": 1.2689046630642956e-07,
+          "reference_energy": 1.56974278731247,
+          "reference_correction_energy": 0.0005532653116707383,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 5.762961017221083e-07,
+          "mass_target_relative": 5.899368943347049e-07
+        },
+        "8192/512": {
+          "field_relative": 0.000284276624485529,
+          "correction_relative": 0.015142197497410814,
+          "squared_error": 1.268559360723193e-07,
+          "reference_energy": 1.569742780669113,
+          "reference_correction_energy": 0.0005532647253689369,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 5.762961017221083e-07,
+          "mass_target_relative": 5.899368943347049e-07
+        },
+        "4096/1024": {
+          "field_relative": 0.00028431475742795947,
+          "correction_relative": 0.015144219933058586,
+          "squared_error": 1.2688997187091085e-07,
+          "reference_energy": 1.5697427873199232,
+          "reference_correction_energy": 0.0005532653665138405,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 5.762961017221083e-07,
+          "mass_target_relative": 5.899368943347049e-07
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order1-unfitted-constructor",
+      "width": 4.5,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00019401289267131455,
+          "correction_relative": 0.017133737959165066,
+          "squared_error": 5.254378355284339e-08,
+          "reference_energy": 1.395918812767236,
+          "reference_correction_energy": 0.00017898519158396928,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 1.659413867571007e-07,
+          "mass_target_relative": 1.5958757769558678e-07
+        },
+        "8192/512": {
+          "field_relative": 0.00019398589250373897,
+          "correction_relative": 0.017131366255350527,
+          "squared_error": 5.2529159898858964e-08,
+          "reference_energy": 1.3959188137364766,
+          "reference_correction_energy": 0.00017898492539547507,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 1.659413867571007e-07,
+          "mass_target_relative": 1.5958757769558678e-07
+        },
+        "4096/1024": {
+          "field_relative": 0.00019401388579099553,
+          "correction_relative": 0.01713382557143411,
+          "squared_error": 5.2544321477371117e-08,
+          "reference_energy": 1.3959188126981448,
+          "reference_correction_energy": 0.00017898519350729287,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 1.659413867571007e-07,
+          "mass_target_relative": 1.5958757769558678e-07
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order1-unfitted-constructor",
+      "width": 5.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00012938455979094566,
+          "correction_relative": 0.018839365072372178,
+          "squared_error": 2.103465209385648e-08,
+          "reference_energy": 1.256522958607614,
+          "reference_correction_energy": 5.9265616885827816e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 2.0374051117354884e-07,
+          "mass_target_relative": 2.0662668003934242e-07
+        },
+        "8192/512": {
+          "field_relative": 0.00012936501131113916,
+          "correction_relative": 0.018836531890305954,
+          "squared_error": 2.1028296422791463e-08,
+          "reference_energy": 1.256522960045611,
+          "reference_correction_energy": 5.926553374235066e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 2.0374051117354884e-07,
+          "mass_target_relative": 2.0662668003934242e-07
+        },
+        "4096/1024": {
+          "field_relative": 0.00012938366190835688,
+          "correction_relative": 0.018839234847638928,
+          "squared_error": 2.103436014886103e-08,
+          "reference_energy": 1.2565229586029814,
+          "reference_correction_energy": 5.9265613653393666e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 2.0374051117354884e-07,
+          "mass_target_relative": 2.0662668003934242e-07
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order1-unfitted-constructor",
+      "width": 6.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 5.697170164284369e-05,
+          "correction_relative": 0.022567265068133717,
+          "squared_error": 3.3989256444756336e-09,
+          "reference_energy": 1.0471846835944438,
+          "reference_correction_energy": 6.6739631430784215e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 1.810474270391777e-07,
+          "mass_target_relative": 1.816099342292316e-07
+        },
+        "8192/512": {
+          "field_relative": 5.696299694334706e-05,
+          "correction_relative": 0.02256384221220836,
+          "squared_error": 3.3978870815298312e-09,
+          "reference_energy": 1.0471846837776655,
+          "reference_correction_energy": 6.67394824053635e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 1.810474270391777e-07,
+          "mass_target_relative": 1.816099342292316e-07
+        },
+        "4096/1024": {
+          "field_relative": 5.6971520212062874e-05,
+          "correction_relative": 0.022567192901570405,
+          "squared_error": 3.3989039962823223e-09,
+          "reference_energy": 1.0471846836111705,
+          "reference_correction_energy": 6.673963320252484e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 1.810474270391777e-07,
+          "mass_target_relative": 1.816099342292316e-07
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order1-unfitted-constructor",
+      "width": 7.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 2.394339786036557e-05,
+          "correction_relative": 0.025786289406938723,
+          "squared_error": 5.145797250540388e-10,
+          "reference_energy": 0.8975964087523101,
+          "reference_correction_energy": 7.738823921724278e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 9.906284559347827e-08,
+          "mass_target_relative": 9.916646398064803e-08
+        },
+        "8192/512": {
+          "field_relative": 2.3939275009830947e-05,
+          "correction_relative": 0.025781901617525332,
+          "squared_error": 5.144025277602001e-10,
+          "reference_energy": 0.8975964087503063,
+          "reference_correction_energy": 7.738792469580041e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 9.906284559347827e-08,
+          "mass_target_relative": 9.916646398064803e-08
+        },
+        "4096/1024": {
+          "field_relative": 2.3943268241973854e-05,
+          "correction_relative": 0.025786149850444192,
+          "squared_error": 5.145741536768019e-10,
+          "reference_energy": 0.8975964087471995,
+          "reference_correction_energy": 7.738823898599703e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 9.906284559347827e-08,
+          "mass_target_relative": 9.916646398064803e-08
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order2-unfitted-constructor",
+      "width": 3.5,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.0004035412204185918,
+          "correction_relative": 0.013019288577337154,
+          "squared_error": 2.9180691436172536e-07,
+          "reference_energy": 1.7919247670775074,
+          "reference_correction_energy": 0.0017215556716317355,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 6.281348412325817e-08,
+          "mass_target_relative": 7.711455742247071e-08
+        },
+        "8192/512": {
+          "field_relative": 0.00040349183764867543,
+          "correction_relative": 0.013017701632596843,
+          "squared_error": 2.9173550032048754e-07,
+          "reference_energy": 1.791924770040063,
+          "reference_correction_energy": 0.0017215540156310162,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 6.281348412325817e-08,
+          "mass_target_relative": 7.711455742247071e-08
+        },
+        "4096/1024": {
+          "field_relative": 0.0004035413692911993,
+          "correction_relative": 0.013019292365218907,
+          "squared_error": 2.9180712965896583e-07,
+          "reference_energy": 1.7919247670346359,
+          "reference_correction_energy": 0.0017215559400555718,
+          "mass_initial_relative": 2.835636178348646e-08,
+          "mass_drift_relative": 6.281348412325817e-08,
+          "mass_target_relative": 7.711455742247071e-08
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order2-unfitted-constructor",
+      "width": 4.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00028431545916941066,
+          "correction_relative": 0.015144258062357311,
+          "squared_error": 1.2689059824696007e-07,
+          "reference_energy": 1.56974278731247,
+          "reference_correction_energy": 0.0005532653116707383,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 1.5068293588881973e-07,
+          "mass_target_relative": 1.6432373430712062e-07
+        },
+        "8192/512": {
+          "field_relative": 0.00028427677208059236,
+          "correction_relative": 0.015142205359167308,
+          "squared_error": 1.2685606779834363e-07,
+          "reference_energy": 1.569742780669113,
+          "reference_correction_energy": 0.0005532647253689369,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 1.5068293588881973e-07,
+          "mass_target_relative": 1.6432373430712062e-07
+        },
+        "4096/1024": {
+          "field_relative": 0.0002843149039606531,
+          "correction_relative": 0.015144227738222696,
+          "squared_error": 1.2689010266633167e-07,
+          "reference_energy": 1.5697427873199232,
+          "reference_correction_energy": 0.0005532653665138405,
+          "mass_initial_relative": 1.3640800473736735e-08,
+          "mass_drift_relative": 1.5068293588881973e-07,
+          "mass_target_relative": 1.6432373430712062e-07
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order2-unfitted-constructor",
+      "width": 4.5,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00019401292413796515,
+          "correction_relative": 0.01713374073805949,
+          "squared_error": 5.254380059683452e-08,
+          "reference_energy": 1.395918812767236,
+          "reference_correction_energy": 0.00017898519158396928,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 1.6594138420295739e-07,
+          "mass_target_relative": 1.5958757514144347e-07
+        },
+        "8192/512": {
+          "field_relative": 0.0001939859239796928,
+          "correction_relative": 0.01713136903506861,
+          "squared_error": 5.252917694551659e-08,
+          "reference_energy": 1.3959188137364766,
+          "reference_correction_energy": 0.00017898492539547507,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 1.6594138420295739e-07,
+          "mass_target_relative": 1.5958757514144347e-07
+        },
+        "4096/1024": {
+          "field_relative": 0.00019401391767679815,
+          "correction_relative": 0.017133828387344827,
+          "squared_error": 5.2544338748485434e-08,
+          "reference_energy": 1.3959188126981448,
+          "reference_correction_energy": 0.00017898519350729287,
+          "mass_initial_relative": 6.353808007154209e-09,
+          "mass_drift_relative": 1.6594138420295739e-07,
+          "mass_target_relative": 1.5958757514144347e-07
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order2-unfitted-constructor",
+      "width": 5.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 0.0001293845605581996,
+          "correction_relative": 0.018839365184090122,
+          "squared_error": 2.1034652343328593e-08,
+          "reference_energy": 1.256522958607614,
+          "reference_correction_energy": 5.9265616885827816e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 2.0374051106251646e-07,
+          "mass_target_relative": 2.0662667992831003e-07
+        },
+        "8192/512": {
+          "field_relative": 0.00012936501208338864,
+          "correction_relative": 0.018836532002751365,
+          "squared_error": 2.102829667384993e-08,
+          "reference_energy": 1.256522960045611,
+          "reference_correction_energy": 5.926553374235066e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 2.0374051106251646e-07,
+          "mass_target_relative": 2.0662667992831003e-07
+        },
+        "4096/1024": {
+          "field_relative": 0.00012938366251981676,
+          "correction_relative": 0.018839234936672083,
+          "squared_error": 2.1034360347675424e-08,
+          "reference_energy": 1.2565229586029814,
+          "reference_correction_energy": 5.9265613653393666e-05,
+          "mass_initial_relative": 2.8861694538232267e-09,
+          "mass_drift_relative": 2.0374051106251646e-07,
+          "mass_target_relative": 2.0662667992831003e-07
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order2-unfitted-constructor",
+      "width": 6.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 5.697170175712226e-05,
+          "correction_relative": 0.02256726511340101,
+          "squared_error": 3.3989256581113275e-09,
+          "reference_energy": 1.0471846835944438,
+          "reference_correction_energy": 6.6739631430784215e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 1.810474270391777e-07,
+          "mass_target_relative": 1.816099342292316e-07
+        },
+        "8192/512": {
+          "field_relative": 5.6962997057380046e-05,
+          "correction_relative": 0.022563842257378425,
+          "squared_error": 3.3978870951341444e-09,
+          "reference_energy": 1.0471846837776655,
+          "reference_correction_energy": 6.67394824053635e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 1.810474270391777e-07,
+          "mass_target_relative": 1.816099342292316e-07
+        },
+        "4096/1024": {
+          "field_relative": 5.697152033432032e-05,
+          "correction_relative": 0.02256719294999824,
+          "squared_error": 3.398904010870009e-09,
+          "reference_energy": 1.0471846836111705,
+          "reference_correction_energy": 6.673963320252484e-06,
+          "mass_initial_relative": 5.625072918943989e-10,
+          "mass_drift_relative": 1.810474270391777e-07,
+          "mass_target_relative": 1.816099342292316e-07
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order2-unfitted-constructor",
+      "width": 7.0,
+      "references": {
+        "4096/512": {
+          "field_relative": 2.3943397860368973e-05,
+          "correction_relative": 0.02578628940694239,
+          "squared_error": 5.145797250541851e-10,
+          "reference_energy": 0.8975964087523101,
+          "reference_correction_energy": 7.738823921724278e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 9.906284559347827e-08,
+          "mass_target_relative": 9.916646398064803e-08
+        },
+        "8192/512": {
+          "field_relative": 2.3939275009841315e-05,
+          "correction_relative": 0.025781901617536497,
+          "squared_error": 5.144025277606458e-10,
+          "reference_energy": 0.8975964087503063,
+          "reference_correction_energy": 7.738792469580041e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 9.906284559347827e-08,
+          "mass_target_relative": 9.916646398064803e-08
+        },
+        "4096/1024": {
+          "field_relative": 2.3943268241520502e-05,
+          "correction_relative": 0.025786149849955944,
+          "squared_error": 5.145741536573155e-10,
+          "reference_energy": 0.8975964087471995,
+          "reference_correction_energy": 7.738823898599703e-07,
+          "mass_initial_relative": 1.0361839743449378e-10,
+          "mass_drift_relative": 9.906284559347827e-08,
+          "mass_target_relative": 9.916646398064803e-08
+        }
+      }
+    }
+  ],
+  "pooled": [
+    {
+      "id": "solver_fbffd848c079-order0-unfitted-constructor",
+      "widths": [
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        6.0,
+        7.0
+      ],
+      "references": {
+        "4096/512": {
+          "field_relative": 0.005298918624609013,
+          "correction_relative": 0.2977614495548302,
+          "squared_error": 0.00022347401174034408,
+          "reference_energy": 7.958890418111581,
+          "reference_correction_energy": 0.0025205196373075216
+        },
+        "8192/512": {
+          "field_relative": 0.0052989065572781385,
+          "correction_relative": 0.2977609255835356,
+          "squared_error": 0.00022347299386736873,
+          "reference_energy": 7.958890417019235,
+          "reference_correction_energy": 0.002520517027625273
+        },
+        "4096/1024": {
+          "field_relative": 0.005298923770916687,
+          "correction_relative": 0.29776171971122745,
+          "squared_error": 0.0002234744458135602,
+          "reference_energy": 7.958890418014056,
+          "reference_correction_energy": 0.0025205199594402115
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order1-unfitted-constructor",
+      "widths": [
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        6.0,
+        7.0
+      ],
+      "references": {
+        "4096/512": {
+          "field_relative": 0.0002496879415900268,
+          "correction_relative": 0.01403068223749029,
+          "squared_error": 4.961896068278007e-07,
+          "reference_energy": 7.958890418111581,
+          "reference_correction_energy": 0.0025205196373075216
+        },
+        "8192/512": {
+          "field_relative": 0.0002496556988761129,
+          "correction_relative": 0.01402887768844531,
+          "squared_error": 4.960614670788125e-07,
+          "reference_energy": 7.958890417019235,
+          "reference_correction_energy": 0.002520517027625273
+        },
+        "4096/1024": {
+          "field_relative": 0.00024968792744870774,
+          "correction_relative": 0.014030680546173941,
+          "squared_error": 4.961895506173617e-07,
+          "reference_energy": 7.958890418014056,
+          "reference_correction_energy": 0.0025205199594402115
+        }
+      }
+    },
+    {
+      "id": "solver_fbffd848c079-order2-unfitted-constructor",
+      "widths": [
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        6.0,
+        7.0
+      ],
+      "references": {
+        "4096/512": {
+          "field_relative": 0.00024968790739791447,
+          "correction_relative": 0.014030680316137339,
+          "squared_error": 4.961894709320141e-07,
+          "reference_energy": 7.958890418111581,
+          "reference_correction_energy": 0.0025205196373075216
+        },
+        "8192/512": {
+          "field_relative": 0.00024965566472439304,
+          "correction_relative": 0.014028875769361134,
+          "squared_error": 4.960613313610925e-07,
+          "reference_energy": 7.958890417019235,
+          "reference_correction_energy": 0.002520517027625273
+        },
+        "4096/1024": {
+          "field_relative": 0.00024968789196445137,
+          "correction_relative": 0.014030678552211833,
+          "squared_error": 4.961894095859857e-07,
+          "reference_energy": 7.958890418014056,
+          "reference_correction_energy": 0.0025205199594402115
+        }
+      }
+    }
+  ]
+}

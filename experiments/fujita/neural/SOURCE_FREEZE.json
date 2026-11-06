@@ -1,0 +1,14 @@
+{
+  "sha256": {
+    "production_runner.py": "42a5c2c31efe3bf2545d214ad24a42c67bce88dad7aab6d441444ab8172668f3",
+    "neural.py": "ab61e33d12fa02413cb086f6adff6b997a09a1efcdbc7377210dc642c363e0e1",
+    "additive_neural.py": "dbd0954f1223d683866b9817f0173f7da8f8582e6be1c22697672422e8ea60b3",
+    "dense_sampling.py": "43162f39c12f8368b59ed5d719e52f47ccf07701f63b63a2bdf9c2123061730a",
+    "sources/fujita_loss.py": "11fee3187929d9623db7c9b8d677c7f1f5b1b06ab4d12a74e0f3624685984ff8",
+    "sources/fujita_problem.py": "5a97e83e2ef40c09e356e37c9e8fb02b6f61f32a637d7283686934e2176512e1",
+    "sources/asys_task/operators.py": "3da9cf8fb3b5dd3bbb0f16f602689d7471b0a58951ce9a39f81c75ac212bf064",
+    "sources/asys_task/__init__.py": "d65de9a89208b6ddab7d2b438d01b0bf05ebc3bed1207274a03a225a06fbbb1a",
+    "sources/asys_task/problem.py": "43d452fdc657d9e6ddd57285e7abd008df8e3fca890ed80887565edd50f8f5ea",
+    "sources/asys_task/evaluate.py": "a4e5abea6eb9ad2406541f10ffcc817f65179d78fe0eb8e6289ad8c6d6643e53"
+  }
+}

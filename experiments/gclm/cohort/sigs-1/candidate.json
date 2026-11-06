@@ -1,0 +1,7 @@
+{
+  "expression": "0.1*((6 - x) * exp(x)) + 0.1*(0.685 * 8 * x)",
+  "anchor": 0.25,
+  "center_mass": 0.6396557460074199,
+  "initial_beta": 1.0,
+  "normalization": "creation-time frozen state"
+}

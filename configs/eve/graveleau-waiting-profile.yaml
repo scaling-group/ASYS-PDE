@@ -1,0 +1,42 @@
+defaults:
+- runtime: default
+- loop: phase2_self_optimize_multi_feature
+- driver: asys
+- logger: many_loggers
+- application: graveleau-waiting-profile
+- optimizer: graveleau-waiting-profile
+- evaluation: graveleau-waiting-profile
+- _self_
+label: graveleau-waiting-profile
+loop:
+  max_iterations: 1
+  n_workers_phase2: 1
+  n_parallel_phase2: 1
+  boundary_repair_attempts: 1
+  sampling:
+    solver_examples: &id001
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.rank_softmax.RankExponentialSumSampler
+      features:
+        score: null
+        physics:
+          weight: 1.0
+          temperature: 1.0
+        ic:
+          weight: 1.0
+          temperature: 1.0
+        ic_tangent:
+          weight: 1.0
+          temperature: 1.0
+        bc:
+          weight: 1.0
+          temperature: 1.0
+      replacement_mode: no_replacement
+    produced_optimizers: *id001
+driver:
+  timeout_seconds: 2700
+  rollout_max_turns: 10000
+  budget_prompt: false
+  enable_multi_agent: false
+logger:
+  wandb:
+    enabled: false

@@ -1,0 +1,13 @@
+# @package _global_
+evaluation:
+  steps:
+  - configs/eve/application/keller-segel-radial-2d/evaluate_raw_mse.sh
+  failure_score:
+    score: -1000000000.0
+    physics: -1000000000.0
+    ic: -1000000000.0
+    bc: -1000000000.0
+    summary: numerical evaluation failed
+    ic_tangent: -1000000000.0
+  seed_solver_score: null
+  seed_solver_skip_evaluation: false

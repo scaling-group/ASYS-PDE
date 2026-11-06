@@ -1,0 +1,9 @@
+# @package _global_
+# Phase 2-only self-optimization loop selector.
+
+defaults:
+  - default
+  - _self_
+
+loop:
+  produce_optimizer_in_phase2: ${loop.n_workers_phase2}

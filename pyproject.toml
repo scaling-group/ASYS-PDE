@@ -1,0 +1,78 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scaling-evolve-core"
+version = "0.1.0"
+description = "Open core for session-level evolutionary coding agents"
+requires-python = ">=3.11,<3.15"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Scientific Computing and Intelligence Group" }]
+dependencies = [
+  "google-genai>=1.68.0",
+  "hydra-core>=1.3",
+  "httpx>=0.28",
+  "litellm>=1.82.4",
+  "numpy>=2.2",
+  "omegaconf>=2.3",
+  "pydantic>=2.11",
+  "pydantic-settings>=2.8",
+  "python-dotenv>=1.2.2",
+  "PyYAML>=6.0.2",
+  "rich>=14.0",
+  "scipy>=1.15",
+  "torch>=2.6",
+  "typer>=0.16",
+  "typing-extensions>=4.12",
+  "wandb>=0.19",
+  "optree>=0.19.0",
+]
+
+[project.optional-dependencies]
+baseline = ["cma>=3.2", "scikit-learn>=1.2", "nltk>=3.8", "symengine>=0.11", "mpmath>=1.3", "sympy>=1.12"]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3",
+  "pytest-cov>=6.0",
+  "pytest-httpx>=0.35",
+  "pytest-xdist>=3.6",
+  "ruff>=0.11",
+  "types-PyYAML>=6.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/scaling_evolve"]
+
+[tool.ruff]
+extend-exclude = ["configs", "baseline", "experiments"]
+force-exclude = true
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**/*.py" = ["S101"]
+
+[tool.pytest.ini_options]
+addopts = "-q --strict-markers"
+testpaths = ["tests"]
+norecursedirs = ["tests/fixtures/repos"]
+pythonpath = ["src"]
+markers = [
+  "integration: slower cross-module tests",
+  "live: requires external API key or manual trigger",
+]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

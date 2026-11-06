@@ -1,0 +1,33 @@
+{
+  "extents": [
+    18,
+    36,
+    72,
+    144,
+    288,
+    576
+  ],
+  "survey_step": 0.25,
+  "survey_refinements": 6,
+  "mass_tolerance": 1e-08,
+  "gauge_tolerance": 1e-06,
+  "quantile_lower": 0.001,
+  "quantile_upper": 0.999,
+  "guard": 2,
+  "coverage_sites": 257,
+  "transition_sites": 64,
+  "operator_panel_width": 0.5,
+  "operator_orders": [
+    16,
+    32,
+    64
+  ],
+  "operator_extension": 8,
+  "operator_tolerance": 1e-07,
+  "score_tolerance": 1e-05,
+  "fixed_sites": 33,
+  "batch_sites": 16,
+  "field_batch": 65536,
+  "max_field_elements": 500000000,
+  "max_operator_sites": 50000
+}

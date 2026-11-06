@@ -1,0 +1,13 @@
+# @package _global_
+evaluation:
+  steps:
+  - configs/eve/evaluation/asys-pinn-allen-cahn-2d/evaluate_allen_cahn_2d.sh
+  failure_score:
+    score: -1000000000.0
+    physics: -1000000000.0
+    ic: -1000000000.0
+    ic_tangent: -1000000000.0
+    bc: -1000000000.0
+    summary: evaluation failed
+  seed_solver_score: null
+  seed_solver_skip_evaluation: false

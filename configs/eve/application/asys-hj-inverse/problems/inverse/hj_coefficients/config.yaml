@@ -1,0 +1,6 @@
+steps: 20000
+learning_rate: 0.001
+n_physics: 256
+n_ic: 128
+n_bc: 64
+n_observation: 256

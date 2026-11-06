@@ -1,0 +1,9 @@
+{
+  "train_best_loss": 4.768138241504137e-08,
+  "steps": 296,
+  "parameters": 312,
+  "live_score_used": false,
+  "wall_time_setting": 300.0,
+  "training_points": 9216,
+  "training_initial_time_points": 144
+}

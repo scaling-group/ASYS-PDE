@@ -1,0 +1,12 @@
+# @package _global_
+evaluation:
+  steps:
+  - configs/eve/evaluation/asys-gclm-profile/evaluation.sh
+  failure_score:
+    physics: -1000000000.0
+    normalization: -1000000000.0
+    refinement: -1000000000.0
+    summary: matched profile evaluation failed
+    score: -1000000000.0
+  seed_solver_score: null
+  seed_solver_skip_evaluation: false

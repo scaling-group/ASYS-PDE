@@ -1,0 +1,40 @@
+defaults:
+- runtime: default
+- loop: phase2_self_optimize_multi_feature
+- driver: asys
+- logger: many_loggers
+- application: asys-gclm-profile
+- optimizer: asys-gclm-profile
+- evaluation: asys-gclm-profile
+- _self_
+label: asys-gclm-profile
+loop:
+  max_iterations: 40
+  n_workers_phase2: 1
+  n_parallel_phase2: 1
+  sampling:
+    solver_examples: &id001
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.rank_softmax.RankExponentialSumSampler
+      features:
+        ic: null
+        ic_tangent: null
+        bc: null
+        score: null
+        physics:
+          weight: 1.0
+          temperature: 1.0
+        normalization: null
+        refinement: null
+      replacement_mode: no_replacement
+    produced_optimizers: *id001
+  n_solver_examples_phase2: 1
+  n_optimizer_examples_phase2: 1
+  produce_optimizer_in_phase2: 1
+  boundary_repair_attempts: 0
+driver:
+  timeout_seconds: 3600
+  rollout_max_turns: 10000
+  budget_prompt: false
+logger:
+  wandb:
+    enabled: false
